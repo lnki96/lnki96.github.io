@@ -16,6 +16,8 @@
   {% endif %}
 {% endif %}
 
+{% assign gallery_layout = 'gallery__' | append: gallery_layout %}
+
 <figure class="{{ gallery_layout }} {{ include.class }}">
   {% for img in gallery %}
     {% if img.url %}
@@ -30,6 +32,10 @@
     {% endif %}
   {% endfor %}
   {% if include.caption %}
-    <figcaption>{{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}</figcaption>
+    <figcaption>
+      <p>
+        {{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}
+      </p>
+    </figcaption>
   {% endif %}
 </figure>

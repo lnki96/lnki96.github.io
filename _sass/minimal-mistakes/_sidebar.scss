@@ -96,6 +96,11 @@
     width: $right-sidebar-width;
     margin-right: -1 * $right-sidebar-width;
   }
+
+  li,
+  dl {
+    font-size: $type-size-5;
+  }
 }
 
 .splash .sidebar__right {

@@ -529,6 +529,11 @@ body:hover .visually-hidden button {
     margin-bottom: 0;
     font-size: $type-size-6;
   }
+
+  ol li,
+  ol p {
+    font-size: 1em;
+  }
 }
 
 a.reversefootnote {

@@ -1,0 +1,9 @@
+<div class="{{ include.class | append: " table-wrapper" | strip }}">
+  <table>
+  {%- if include.caption -%}
+    <caption>
+        {{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}
+    </caption>
+  {%- endif -%}
+  {{ include.table | markdownify | remove: "<table>" }}
+</div>

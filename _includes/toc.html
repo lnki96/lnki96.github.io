@@ -95,7 +95,20 @@
         {% endif %}
 
         {% capture _hAttrToStrip %}{{ _workspace[0] | split: '>' | first }}>{% endcapture %}
-        {% assign header = _workspace[0] | replace: _hAttrToStrip, '' %}
+        {% assign header = "" %}
+        {% assign headerStrFrags = _workspace[0] | replace: _hAttrToStrip, '' | split: '<sup' %}
+        {% for strFrag in headerStrFrags %}
+            {% if strFrag == "" %}
+                {% continue %}
+            {% endif %}
+            {% if strFrag contains "</sup>" %}
+                {% assign _supToStrip = strFrag | split: '</sup>' | first | append: "</sup>" %}
+                {% assign _strFrag = strFrag | replace: _supToStrip, '' %}
+                {% assign header = header | append: _strFrag %}
+            {% else %}
+                {% assign header = header | append: strFrag %}
+            {% endif %}
+        {% endfor %}
 
         {% assign indentAmount = headerLevel | minus: minHeader %}
         {% assign space = '' %}
