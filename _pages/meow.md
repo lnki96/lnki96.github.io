@@ -1,5 +1,5 @@
 ---
-title: 猫咪
+title: 点点的小日子
 layout: collection
 collection: meow
 permalink: /meow/
