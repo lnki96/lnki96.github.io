@@ -1,6 +1,12 @@
+dist: focal
 language: ruby
 cache: bundler
 gemfile: Gemfile
+addons:
+  apt:
+    packages:
+      - graphicsmagick
+      - webp
 script:
   - JEKYLL_ENV=production bundle exec jekyll build
 deploy:
