@@ -1,3 +1,6 @@
 [submodule "assets/images/emoji"]
 	path = assets/images/emoji
 	url = https://git.lnki.me/emoji
+[submodule "contents"]
+	path = contents
+	url = https://git.lnki.me/www-contents
