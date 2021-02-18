@@ -419,7 +419,7 @@ jekyll-spaceship:
   emoji-processor:
     css:
       class: emoji
-    src: https://github.githubassets.com/images/icons/emoji/
+    src: /assets/images/emoji/
   element-processor:
     css:
       - img.emoji:
