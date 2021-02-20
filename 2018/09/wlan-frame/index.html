@@ -9,8 +9,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>计算机网络模型 - Lnki’s Home · 网上冲浪日志</title>
-<meta name="description" content="一、OSI 七层模型">
+<!-- begin _includes/seo.html --><title>IEEE 802.11 MAC 帧 - Lnki’s Home · 网上冲浪日志</title>
+<meta name="description" content="Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。">
 
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
@@ -32,11 +32,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:site_name" content="Lnki's Home · 网上冲浪日志">
-<meta property="og:title" content="计算机网络模型">
-<meta property="og:url" content="https://www.lnki.me/2018/09/network-model/">
+<meta property="og:title" content="IEEE 802.11 MAC 帧">
+<meta property="og:url" content="https://www.lnki.me/2018/09/wlan-frame/">
 
 
-  <meta property="og:description" content="一、OSI 七层模型">
+  <meta property="og:description" content="Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。">
 
 
 
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2018-09-08T00:00:00+08:00">
+  <meta property="article:published_time" content="2018-09-13T00:00:00+08:00">
 
 
 
@@ -57,7 +57,7 @@
   
 
 
-<link rel="canonical" href="https://www.lnki.me/2018/09/network-model/">
+<link rel="canonical" href="https://www.lnki.me/2018/09/wlan-frame/">
 
 
 
@@ -207,7 +207,7 @@
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
-          计算机网络模型
+          IEEE 802.11 MAC 帧
 
         
       </h1>
@@ -227,7 +227,7 @@
       
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2018-09-08T00:00:00+08:00">2018 年 9 月 8 日</time>
+        <time datetime="2018-09-13T00:00:00+08:00">2018 年 9 月 13 日</time>
       </span>
     
 
@@ -269,7 +269,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          阅读时间约 7 分钟
+          阅读时间约 10 分钟
         
       </span>
     
@@ -411,9 +411,9 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="计算机网络模型">
-    <meta itemprop="description" content="一、OSI 七层模型">
-    <meta itemprop="datePublished" content="2018-09-08T00:00:00+08:00">
+    <meta itemprop="headline" content="IEEE 802.11 MAC 帧">
+    <meta itemprop="description" content="Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。">
+    <meta itemprop="datePublished" content="2018-09-13T00:00:00+08:00">
     
 
     <div class="page__inner-wrap">
@@ -426,131 +426,323 @@
               <header><h4 class="nav__title">
 <i class="fas fa-file-alt"></i> 目录</h4></header>
               <ul class="toc__menu">
+  <li><a href="#%E4%B8%80%E5%B8%A7%E6%A0%BC%E5%BC%8F">一、帧格式</a></li>
+  <li><a href="#%E4%BA%8C%E5%AF%B9%E4%B8%8A%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B0%81%E8%A3%85">二、对上层协议的封装</a></li>
   <li>
-<a href="#%E4%B8%80osi-%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B">一、OSI 七层模型</a>
+<a href="#%E4%B8%89%E5%B8%A7%E7%B1%BB%E5%9E%8B">三、帧类型</a>
     <ul>
-      <li><a href="#1-%E7%89%A9%E7%90%86%E5%B1%82">1. 物理层</a></li>
-      <li><a href="#2-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">2. 数据链路层</a></li>
-      <li><a href="#3-%E7%BD%91%E7%BB%9C%E5%B1%82">3. 网络层</a></li>
-      <li><a href="#4-%E4%BC%A0%E8%BE%93%E5%B1%82">4. 传输层</a></li>
-      <li><a href="#5-%E4%BC%9A%E8%AF%9D%E5%B1%82">5. 会话层</a></li>
-      <li><a href="#6-%E8%A1%A8%E7%A4%BA%E5%B1%82">6. 表示层</a></li>
-      <li><a href="#7-%E5%BA%94%E7%94%A8%E5%B1%82">7. 应用层</a></li>
+      <li><a href="#1-%E6%95%B0%E6%8D%AE%E5%B8%A7">1. 数据帧</a></li>
+      <li><a href="#2-%E6%8E%A7%E5%88%B6%E5%B8%A7">2. 控制帧</a></li>
+      <li><a href="#3-%E7%AE%A1%E7%90%86%E5%B8%A7">3. 管理帧</a></li>
     </ul>
   </li>
-  <li>
-<a href="#%E4%BA%8Ctcpip-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B">二、TCP/IP 四层模型</a>
-    <ul>
-      <li><a href="#1-%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%B1%82">1. 网络接口层</a></li>
-      <li><a href="#2-%E7%BD%91%E7%BB%9C%E5%B1%82">2. 网络层</a></li>
-      <li><a href="#3-%E4%BC%A0%E8%BE%93%E5%B1%82">3. 传输层</a></li>
-      <li><a href="#4-%E5%BA%94%E7%94%A8%E5%B1%82">4. 应用层</a></li>
-    </ul>
-  </li>
-  <li><a href="#%E4%B8%89%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B">三、五层模型</a></li>
+  <li><a href="#%E5%9B%9B%E5%B8%A7%E7%9A%84%E5%86%85%E5%AE%B9">四、帧的内容</a></li>
+  <li><a href="#%E4%BA%94%E6%80%BB%E7%BB%93">五、总结</a></li>
 </ul>
 
             </nav>
           </aside>
         
-        <h2 id="一osi-七层模型">一、OSI 七层模型</h2>
+        <p>Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。</p>
 
-<p>OSI（Open System Interconnection）模型是一种计算机网络标准框架，是一种全球各种计算平台和网络之间数据通信的完整解决方案。OSI 是理论上的网络标准，而实际上的工业标准是 TCP/IP 协议族，理解 OSI 有助于理解 TCP/IP。</p>
+<h2 id="一帧格式">一、帧格式<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>
+</h2>
 
-<p>OSI 是一种分组网络模型，定义了七层网络模型，每层的功能相互独立，通过定义一些协议来描述处理过程，这样的好处是上层的修改不影响下层的结构。OSI分层模型的核心思想是封装，上层的数据包对于下层协议而言就是一个黑箱，下层协议只处理本层信息，不关心上层数据包的内容。在通信过程中，下层协议对于上层协议是透明的，下层协议通过封装、编码、加密等方式承载上层协议的数据包。</p>
-
-<p>发送时，信息从应用层开始向下逐层封装，最终物理层将信息转化成信号传播到介质中；接收时，首先物理层从介质传来的信号中获取信息，再向上逐层拆包，最终到达应用层。</p>
-
-<figure class="">
-  
-  <img src="/contents/posts/osi-model.webp" alt="OSI 网络模型封装过程示意图">
-  <figcaption>
-      OSI 模型结构及数据封装
-
-    </figcaption></figure>
-
-<h3 id="1-物理层">1. 物理层</h3>
-
-<p>物理层的处理单元是 bit（比特），负责将信息编码成电流脉冲、电磁波等形式的信号并传播出去，同时从信号中解码信息生成原始 bit 码。它定义了 bit 和信号之间的转换方式，以及物理介质的光电、电气和机械特性。</p>
-
-<h3 id="2-数据链路层">2. 数据链路层</h3>
-
-<p>数据链路层的处理单元是帧（Frame），负责构建物理设备的逻辑链路，并将输入的数据转换为数据帧，同时负责检测和修正传输出现的错误。工作在该层的设备主要是交换机。</p>
-
-<p>该层又被划分为两个子层，分别为介质访问控制（MAC）子层和逻辑链路控制（LLC）子层。</p>
-
-<p>MAC 子层的主要功能包括数据帧的封装/卸装，帧的寻址和识别，帧的接收与发送，链路的管理，帧的差错控制等。MAC 子层的存在屏蔽了不同物理链路种类的差异性，解决了局域网共用信道出现冲突时的介质使用权分配。在传统局域网中，普遍使用的 MAC 标准是 IEEE 802.3，即通常所说的以太网（Ethernet），采用 CSMA/CD 的方式避免冲突；在无线网络中，MAC 标准为 IEEE 802.11。MAC 子层还采用多种方式提高传输效率，包括 TDM、FDM、WDM 和 CDMA。</p>
-
-<p>LLC 子层向上层提供服务，包括传输可靠性保障和控制、数据包的分段与重组、数据包的顺序传输等，IEEE 802.2 定义了它的功能和服务，它提供了访问各种介质的方法。LLC 负责识别网络层协议，然后对它们进行封装。LLC 报头告诉数据链路层当帧被接收到时，应当对数据包做何处理。</p>
-
-<h3 id="3-网络层">3. 网络层</h3>
-
-<p>网络层的处理单元是包（Packet），提供点到点的数据传输服务，该层协议描述了在设备之间如何传输数据，即描述了如何确定数据包从发送方到接收方的路径，它依据独一的地址信息来为数据包提供路由；与此同时负责流量和拥塞控制，以防止网络资源耗尽。工作在该层的设备有路由器、防火墙等。</p>
-
-<p>IP 是网络层的核心协议，负责将数据包从源地址发送到目的地址，它提供不可靠的传输服务，并由一些辅助协议提供拓展功能。ICMP 负责差错控制，IGMP 负责建立和维护组播成员关系，两者数据承载在 IP 数据包之上；ARP 负责根据 IP 地址解析当前网络的物理地址，RARP 则根据物理地址解析 IP 地址，两者数据直接承载在帧上。IP 实现了不同网络之间的通信，每个网络的边界称为网关，IP 还提供了子网划分和子网融合，提供灵活的网络管理功能。</p>
-
-<p>网络层另一重要功能是路由，常见的路由协议由 RIP、OSPF 等等，这些协议负责建立和维护路由表，在转发 IP 数据包时，将目的地址和路由表逐条比对，然后从匹配的端口转发。</p>
-
-<h3 id="4-传输层">4. 传输层</h3>
-
-<p>传输层的处理单元是消息（Message），负责管理网络中端到端的消息传输，通过错误恢复和流量控制的机制为数据包传输提供可靠性和顺序性，同时提供了一种面向连接的数据包传输方式。</p>
-
-<p>传输层最主要的两个协议是 TCP 和 UDP，提供端口到端口、进程到进程的数据传输服务。TCP 是面向连接的，提供的是可靠服务，因此没有广播功能，它通过三次握手、ACK 应答、重传等机制进行差错控制，以及通过慢启动、快速重传、滑动窗口等机制进行流量控制；UDP 提供不可靠服务，能进行广播和组播，它没有差错控制和流量控制机制，数据包结构简单，封装快速，适用于需要快速响应或流量较大的应用。</p>
-
-<h3 id="5-会话层">5. 会话层</h3>
-
-<p>会话层使不同设备上的用户之间能够建立会话，它负责控制用户间逻辑链路的建立和终止，同时负责报告上层的错误。常见的协议有 SSL/TLS 和 RPC 等。</p>
-
-<h3 id="6-表示层">6. 表示层</h3>
-
-<p>表示层标记不同系统之间的数据差异，并指定独立于系统架构的数据传输格式，它负责编码解码、加密解密和压缩解压数据。</p>
-
-<h3 id="7-应用层">7. 应用层</h3>
-
-<p>应用层包含用户使用的各种服务和协议，例如文件传输、电子邮件、Web 等等。</p>
-
-<h2 id="二tcpip-四层模型">二、TCP/IP 四层模型</h2>
-
-<p>尽管 OSI 定义很完善，但存在一些问题，首先实现复杂度较高，其次各层的功能划分不均，例如表示层和会话层的功能相对较少，因此相对简单的 TCP/IP 协议族是实际上的工业标准。TCP/IP 层级模型类似 OSI，但是没有公认的标准，通常采用四层模型来描述，相比于 OSI，TCP/IP 四层模型取消了会话层和表示层，同时把物理层和数据链路层融合为一个网络接口层。</p>
+<p>下图为一般的 802.11 MAC 帧格式，单位为字节，会用到哪些字段取决于帧的类型。</p>
 
 <figure class="">
   
-  <img src="/contents/posts/osi-tcp-ip.webp" alt="TCP/IP 模型图">
+  <img src="/contents/posts/80211-general-frame.webp" alt="一般的 802.11 帧格式示意图">
   <figcaption>
-      OSI 与 TCP/IP 模型
+      一般的 802.11 MAC 帧格式
 
     </figcaption></figure>
 
-<h3 id="1-网络接口层">1. 网络接口层</h3>
-
-<p>网络接口层规定主机必须使用某种协议连接到网络，以便向该主机发送 IP 数据包；这里所提到的协议并没有明确定义，可能在不同主机和网络上有不同的定义和实现。</p>
-
-<h3 id="2-网络层">2. 网络层</h3>
-
-<p>这里的网络层功能上和 OSI 网络层类似，它定义了正式的 IP 协议，规定了网络间传输的数据包格式和协议，IP 是 TCP/IP 协议族中最重要的协议，主要功能是将数据包发送到指定的目的地。</p>
-
-<h3 id="3-传输层">3. 传输层</h3>
-
-<p>传输层同样功能上类似于OSI传输层，主要包含两个端到端协议：TCP 和 UDP，它们也是 TCP/IP 中的重要协议，用于不同系统之间的跨进程通信。</p>
-
-<h3 id="4-应用层">4. 应用层</h3>
-
-<p>与OSI不同的是，应用层之下不再包括表示层和会话层，功能上和OSI应用层相似，提供高层的协议，例如 SMTP、FTP 等等。</p>
-
-<h2 id="三五层模型">三、五层模型</h2>
-
-<p>上述的 TCP/IP 模型没有很好地描述物理层和数据链路层的功能，而 OSI 模型的会话层和表示层几乎闲置，综合两者的特点，提出一种五层模型来描述网络分层结构，它类似于 TCP/IP 四层模型，只是将网络接口层替换为 OSI 七层模型的物理层和数据链路层，包括物理层、数据链路层、网络层、传输层和应用层。</p>
-
-<p>五层模型仅用于学习和理解计算机网络原理，实际网络工程中并不常见。</p>
+<dl>
+  <dt>Frame Control</dt>
+  <dd>帧控制字段，包含协议、帧类型以及标志位等信息。其中 Type 字段标记当前帧的类型，包括管理帧、控制帧、数据帧三类；Sub-type 字段标记每种帧类型中的子类型，不同类型的帧有不同的处理方式。</dd>
+</dl>
 
 <figure class="">
   
-  <img src="/contents/posts/osi-5-leyer-arch.webp" alt="五层模型图">
+  <img src="/contents/posts/80211-frame-frame-control.webp" alt="Frame Control 字段示意图">
   <figcaption>
-      五层模型与 OSI
+      Frame Control 字段
 
     </figcaption></figure>
 
+<dl>
+  <dt>Duration / ID</dt>
+  <dd>这个字段有三种形式，如下图。设定 NAV 时，第 15 位为 <code class="language-plaintext highlighter-rouge">0</code>，其他位标识 NAV 的值，单位为微秒；在无竞争周期传送的帧中，第 14、15 位为 <code class="language-plaintext highlighter-rouge">01</code>，其余位均为 <code class="language-plaintext highlighter-rouge">0</code>，用来公告所有 STA 网络无竞争周期，避免它们干扰传送；在 PS-Poll（省电轮询）帧中，第 14、15 位为 <code class="language-plaintext highlighter-rouge">11</code>，其他位则表示 AID（Association ID），AP 用来查找相应的缓冲帧。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-frame-nav-id.webp" alt="Duration / ID 字段示意图">
+  <figcaption>
+      Duration / ID 字段的表示形式
+
+    </figcaption></figure>
+
+<dl>
+  <dt>Address</dt>
+  <dd>802.11 帧最多包含 4 个地址字段，不同类型的帧包含的地址字段数量有所不同，它们可能表示目的地址（最终的接收端）、来源地址（帧的来源）、接收端地址（负责接收处理该帧的无线设备，可以是 STA 或 AP）、发送端地址（将帧传至无线媒介的无线接口）或者 BSSID（在基础结构型网络里是 AP 的 MAC 地址，在独立型网络则为随机的值）。</dd>
+  <dt>Sequence Control</dt>
+  <dd>分为片段编号和顺序编号，用于重组片段和丢弃重复帧。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-frame-seq-ctrl.webp" alt="Sequence Control 字段示意图">
+  <figcaption>
+      Sequence Control 字段
+
+    </figcaption></figure>
+
+<dl>
+  <dt>Frame Body</dt>
+  <dd>帧主体，负责传递上层有效载荷（Payload）。</dd>
+  <dt>FCS（Frame Check Sequence）</dt>
+  <dd>帧校验序列，是一种 32 bit 长的循环冗余校验码（CRC），FCS 和 CRC 的底层算法相同，用于检查所收到的帧的完整性。</dd>
+</dl>
+
+<h2 id="二对上层协议的封装">二、对上层协议的封装</h2>
+
+<p>和以太网不同，802.11 封装依靠 802.2 的逻辑链路层封装来携带上层数据包。封装三层数据包时，先由衍生自 802.2 子网访问协议（SNAP，Sub-network Access Protocol）的 RFC 1042 或 802.1h 封装，SNAP 标头以目的服务接入点（DSAP，Destination Service Access Point）和源服务接入点（SSAP，Source Service Access Point）开始，之后依次为控制、OUI（组织唯一标识）、数据包类型字段，最后是数据包主体。LLC 层封装后，802.11 会再添加 MAC 标头，填入目的地址、源地址等信息，最后计算数据帧的帧校验序列，加到帧的末尾。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-frame-ip-encap.webp" alt="IEEE 802.11 封装 IP 示意图">
+  <figcaption>
+      IEEE 802.11 对 IP 的封装
+
+    </figcaption></figure>
+
+<h2 id="三帧类型">三、帧类型<sup id="fnref:1:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>
+</h2>
+
+<p>前面有提到，802.11 MAC 帧分为三类，分别为数据帧、控制帧和管理帧，本节介绍各种帧的特点及作用。</p>
+
+<h3 id="1-数据帧">1. 数据帧</h3>
+
+<p>数据帧主要负责承载数据的传输，将上层协议的数据置于帧主体中加以传递，此外它还标记数据的传输方式，例如 QoS、CF-Poll 等等。控制帧和管理帧不承载上层数据包。数据帧子类型包括下面这些：</p>
+
+<ul>
+  <li>Data</li>
+  <li>Data + CF-ACK</li>
+  <li>Data + CF-Poll</li>
+  <li>Data + CF-ACK + CF-Poll</li>
+  <li>Null（无承载数据）</li>
+  <li>CF-ACK（无承载数据）</li>
+  <li>CF-Poll（无承载数据）</li>
+  <li>CF-ACK + CF-Poll（无承载数据）</li>
+</ul>
+
+<p>另外，802.11e 提议引入 QoS，但尚未标准化，Sub-type 字段首位为 <code class="language-plaintext highlighter-rouge">1</code> 则表示启用了 QoS 支持，因此，有人称第一位为 QoS 位。</p>
+
+<h3 id="2-控制帧">2. 控制帧</h3>
+
+<p>控制帧负责管理媒介的访问权，避免物理链路发生冲突，并且确保帧被成功传输，提供 MAC 层的可靠性，此外还包括省电程序；</p>
+
+<dl>
+  <dt>RTS 帧</dt>
+  <dd>用来预约无线链路的使用权，为了确保传输数据时不会有冲突，会先发送一个 RTS 帧，其他设备收到 RTS 帧后，会在一段时间内保持静默。</dd>
+  <dt>CTS 帧</dt>
+  <dd>用于应答 RTS 帧，接收端收到 RTS 帧后，如果没有冲突，便应答一个 CTS 帧，标识当前无线链路可用，CTS 帧同样会使其他设备保持静默，如果发送端发送 RTS 后没有收到 CTS，便判定物理链路忙碌，将在一段时间内保持静默。</dd>
+  <dt>ACK 帧</dt>
+  <dd>确认数据已正确传输，接收端正确接数据后，应答一个 ACK 帧，若发送端未收到 ACK，则认为传输失败，将重传数据，以此实现传输的可靠性。</dd>
+</dl>
+
+<p>这里提一下，802.11 网络中的物理链路访问控制和传输可靠性主要依靠的就是 RTS、CTS、ACK。</p>
+
+<p>在传输大型帧时干扰较多，需要用 RTS 来取得媒介的访问权。网卡驱动会设置一个 RTS 阈值，传送大于 RTS 阈值的帧之前，先进行 RTS / CTS 交换，先向接收端发送 RTS 帧，接收端收到 RTS 后应答 CTS 帧，以此清空物理链路，然后发送端再发送数据帧，接收端正确接收后，应答ACK；至于长度小于 RTS 阈值的帧，则不进行 RTS / CTS 交换，直接发送数据帧，然后接收端应答 ACK。上述流程中，每个帧之间都间隔 SIFS，流程结束后进入 DIFS，DIFS 结束后网络中的设备再次开始竞争物理链路使用权。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-rtc-cts-ack.webp" alt="RTS / CTS 清空物理链路示意图">
+  <figcaption>
+      传输长度大于 RTS 阈值的帧
+
+    </figcaption></figure>
+
+<dl>
+  <dt>PS-Poll 帧</dt>
+  <dd>控制帧的子类型中还包括 PS-Poll 帧，参与 802.11 的省电程序机制，用于从 AP 获取缓存帧。PS-Poll 帧中包含一个 AID 字段，AID（Association ID）即关联 ID，用于识别关联，便于 AP 为该关联找出缓存的帧。</dd>
+  <dt>CF-End 帧</dt>
+  <dd>表示无竞争周期结束。</dd>
+  <dt>CF-End + CF-ACK 帧</dt>
+  <dd>表示无竞争周期结束，同时进行无竞争周期确认。</dd>
+</dl>
+
+<h3 id="3-管理帧">3. 管理帧</h3>
+
+<p>管理帧主要负责网络的访问控制，参与 WLAN 的连接、断开、身份验证等操作，以及进行 WLAN 的识别，使无线网络能实现类似传统有线网络的寻找插座、连接网线等操作。与控制帧相比，控制帧管理的是数据传输的过程，而管理帧管理的是无线网络本身。管理帧包含帧主体，可以携带一些固定字段或是信息元素，以传递详细的网络管理消息，例如 SSID、WPA 密钥等等。</p>
+
+<dl>
+  <dt>Beacon 帧</dt>
+  <dd>一种比较重要的类型，用于声明网络的存在，是网络的信标，其中包含 SSID、BSSID 等字段，以及加入网络所需的参数，周期性传送信标可以让 STA 得知网络的存在。</dd>
+  <dt>Probe Request 帧</dt>
+  <dd>探查请求，用来扫描区域内的 802.11 网络，它包含要探查的 SSID 和 STA 支持的频率信息，收到 Probe Request 帧的 AP 会判断 STA 是否能加入网络。</dd>
+  <dt>Probe Response 帧</dt>
+  <dd>即探查响应，收到 Probe Request 帧后，若 STA 与网络兼容，AP 就会应答一个 Probe Response 帧。Probe Response 包含 Beacon 中的所有参数，STA 根据它调整加入网络所需的参数。</dd>
+  <dt>ATIM 帧</dt>
+  <dd>Announcement Traffic Indication Message 即通知传输指示消息，用于 IBSS 的省电机制，某台设备休眠时，会发出一个 ATIM 帧，此后发往该设备的帧会被发送方缓存。</dd>
+  <dt>Authentication 帧</dt>
+  <dd>用于建立连接前的身份验证，帧中包含算法代号，由于使用的算法不同，认证过程可能包含多个步骤，因此要为每个 Authentication 帧标记序号，状态码和质询文本因算法而异。</dd>
+  <dt>Association Request 帧</dt>
+  <dd>用来请求加入网络，STA 判断与网络兼容并通过身份验证后，便会发送 Association Request 帧 请求关联。</dd>
+  <dt>Association Response 帧与Reassociation Response 帧</dt>
+  <dd>分别用于关联请求和重新关联请求的响应，在响应过程中，会为当前关联指定 AID，(Re)Association Response 帧传输完成后关联关系建立。</dd>
+  <dt>Reassociation Request 帧</dt>
+  <dd>主要用于同一 ESS 内的 BSS 切换过程，允许 STA 短暂离开网络后重新加入，相较于 Association Request 帧，Reassociation Request 帧包含 STA 此前关联的 AP 的 MAC 地址，这样新旧 AP 可以彼此联系和转移缓存的数据。</dd>
+  <dt>Disassociation 帧与 Deauthentication 帧</dt>
+  <dd>分别用于解除关联关系和认证关系，两者均包含一个 Reason 字段，用于描述解除关系的原因。在解除认证关系时会自动解除关联关系。</dd>
+  <dt>Action 帧</dt>
+  <dd>由 802.11h 引入，用于其他功能，例如 DFS。</dd>
+</dl>
+
+<h2 id="四帧的内容">四、帧的内容</h2>
+
+<p>到这里，我们已经了解到，802.11 MAC 设计了多种类型的帧来保证 WLAN 正常工作，为了理解成帧细节，下面就以 Beacon 帧为例，抓包看看 802.11 MAC 帧的内容。</p>
+
+<p>首先 Beacon 帧的 MAC 标头长度为 24 字节。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-header.webp" alt="Beacon 帧 MAC 标头图">
+  <figcaption>
+      Beacon 帧中的 MAC 标头
+
+    </figcaption></figure>
+
+<dl>
+  <dt>Frame Control（2 字节）</dt>
+  <dd>其中协议版本（2 bit）为 <code class="language-plaintext highlighter-rouge">0</code>，帧类型（2 bit）为 <code class="language-plaintext highlighter-rouge">00</code>（管理帧），子类型（4 bit）为 <code class="language-plaintext highlighter-rouge">000</code>（Beacon 帧），标志位（8 bit）全部置 <code class="language-plaintext highlighter-rouge">0</code>。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-frame-ctrl.webp" alt="Beacon 帧 Frame Control 字段内容图">
+  <figcaption>
+      Frame Control 字段内容
+
+    </figcaption></figure>
+
+<dl>
+  <dt>Duration 字段（2 字节）</dt>
+  <dd>值为 <code class="language-plaintext highlighter-rouge">0</code>，表示 NAV 为 <code class="language-plaintext highlighter-rouge">0</code>，不进行计时。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-duration.webp" alt="Beacon 帧 Duration 字段内容图">
+  <figcaption>
+      Duration 字段内容
+
+    </figcaption></figure>
+
+<dl>
+  <dt>目的地址（6 字节）</dt>
+  <dd>值为 <code class="language-plaintext highlighter-rouge">ff:ff:ff:ff:ff:ff</code>，广播地址，Beacon 帧的定义中没有接收端地址。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-da.webp" alt="Beacon 帧目的地址图">
+  <figcaption>
+      目的地址
+
+    </figcaption></figure>
+
+<dl>
+  <dt>源地址（6 字节）</dt>
+  <dd>值为 <code class="language-plaintext highlighter-rouge">96:63:72:0e:9f:e1</code>，同样地，Beacon 帧的定义中没有发送端地址。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-sa.webp" alt="Beacon 帧源地址图">
+  <figcaption>
+      源地址
+
+    </figcaption></figure>
+
+<dl>
+  <dt>BSSID（6 字节）</dt>
+  <dd>值为 <code class="language-plaintext highlighter-rouge">96:63:72:0e:9f:e1</code>，与源地址相同，以 AP 的 MAC 地址作为 BSSID。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-bssid.webp" alt="Beacon 帧 BSSID 字段内容图">
+  <figcaption>
+      BSSID 字段内容
+
+    </figcaption></figure>
+
+<dl>
+  <dt>帧分片序号（4 bit）</dt>
+  <dd>值为 <code class="language-plaintext highlighter-rouge">0</code>，表示不分片；帧序列号（12 bit）为 <code class="language-plaintext highlighter-rouge">694</code>。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-fragment-seq.webp" alt="Beacon 帧分片序号与序列号字段内容图">
+  <figcaption>
+      分片序号与序列号
+
+    </figcaption></figure>
+
+<dl>
+  <dt>帧校验序列（4 bit）</dt>
+  <dd>在帧主体后面，帧的结尾处，值为 <code class="language-plaintext highlighter-rouge">0xEA820968</code>，显示校验结果正确，数据完整。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-fcs.webp" alt="Beacon 帧校验序列内容图">
+  <figcaption>
+      帧校验序列字段内容
+
+    </figcaption></figure>
+
+<dl>
+  <dt>Beacon 帧主体</dt>
+  <dd>分为固定长度的固定字段（Fixed Parameters）和长度不定的标签字段（Tagged Parameters）。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-body.webp" alt="Beacon 帧主体内容图">
+  <figcaption>
+      Beacon 帧主体
+
+    </figcaption></figure>
+
+<dl>
+  <dt>信息元素：SSID</dt>
+  <dd>最后看看 Beacon 帧主体中的标签字段 SSID，每个标签字段也称为信息元素（Information Element，EI），是长度不定的字符串，SSID 长度介于 0 至 32 字节之间，元素编号（1 字节）为 <code class="language-plaintext highlighter-rouge">0</code>，长度（1 字节）为 <code class="language-plaintext highlighter-rouge">10</code>，无线网络的 SSID 为 <code class="language-plaintext highlighter-rouge">vivo NEX S</code>。</dd>
+</dl>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-beacon-tag-ssid.webp" alt="Beacon 帧 SSID 标签内容图">
+  <figcaption>
+      SSID 标签
+
+    </figcaption></figure>
+
+<h2 id="五总结">五、总结</h2>
+
+<p>分析完 802.11 MAC 帧的部分细节，对 802.11 工作原理有了一个系统化的、动态的认识，了解了一些典型机制的基本原理，比如可靠性传输、竞争周期、建立连接、扫描的过程等等，将日常使用 Wi-Fi 的操作和这些帧对应起来，就明白我们通过 Wi-Fi 上网时，设备之间究竟发生了什么。当然，这里也不可能了解 802.11 MAC 帧的全部内容，更多原理有待后续学习。</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Gast, M. S. 802.11® 无线网络权威指南[M]. 第 2 版. O’Reilly Taiwan 公司. 南京 - 东南大学出版社, 2007.12: 57-66,88-105 <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a> <a href="#fnref:1:1" class="reversefootnote" role="doc-backlink">↩<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
 
         
       </section>
@@ -569,6 +761,10 @@
   <p class="page__taxonomy">
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
     <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#wlan" class="page__taxonomy-item" rel="tag">WLAN</a><span class="sep">, </span>
     
       
       
@@ -601,7 +797,7 @@
 
           
             
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间：</strong> <time datetime="2018-09-08T00:00:00+08:00">2018 年 9 月 8 日</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间：</strong> <time datetime="2018-09-13T00:00:00+08:00">2018 年 9 月 13 日</time></p>
 
 
           
@@ -613,11 +809,11 @@
       
   <nav class="pagination">
     
-      <a href="/2018/09/android-arch/" class="pagination--pager" title="Android 系统架构
+      <a href="/2018/09/wlan-mac/" class="pagination--pager" title="IEEE 802.11 MAC 基础盘点
 ">上一页</a>
     
     
-      <a href="/2018/09/wlan-overview/" class="pagination--pager" title="IEEE 802.11 概览
+      <a href="/2018/09/arp-dhcp/" class="pagination--pager" title="常见协议之 ARP 与 DHCP
 ">下一页</a>
     
   </nav>
@@ -664,7 +860,7 @@
                 <input type="url" id="comment-form-url" name="fields[url]" tabindex="4">
               </div>
               <div class="form-group hidden" style="display: none;">
-                <input type="hidden" name="options[slug]" value="network-model">
+                <input type="hidden" name="options[slug]" value="wlan-frame">
                 <label for="comment-form-location">Not used. Leave blank if you are a human.</label>
                 <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off">
                 <input type="hidden" name="options[reCaptcha][siteKey]" value="6Lfi0TkaAAAAAL7-p7VJ15DjbJnVpRADclZZn5wn">
@@ -783,93 +979,6 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">一、ARP
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/teaser.webp" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/2018/09/wlan-frame/" rel="permalink">IEEE 802.11 MAC 帧
-</a>
-      
-    </h2>
-    
-
-
-
-
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2018-09-13T00:00:00+08:00">2018 年 9 月 13 日</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          阅读时间约 12 分钟
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。
 </p>
   </article>
 </div>
@@ -1040,7 +1149,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          阅读时间约 11 分钟
+          阅读时间约 10 分钟
         
       </span>
     
@@ -1048,6 +1157,93 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/network-model/" rel="permalink">计算机网络模型
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-08T00:00:00+08:00">2018 年 9 月 8 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 7 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">一、OSI 七层模型
 </p>
   </article>
 </div>

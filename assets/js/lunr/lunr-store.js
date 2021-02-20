@@ -23,6 +23,12 @@ var store = [{
         "url": "https://www.lnki.me/2018/09/wlan-mac/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       },{
+        "title": "IEEE 802.11 MAC 帧",
+        "excerpt":"Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。 一、帧格式1 下图为一般的 802.11 MAC 帧格式，单位为字节，会用到哪些字段取决于帧的类型。 一般的 802.11 MAC 帧格式 Frame Control 帧控制字段，包含协议、帧类型以及标志位等信息。其中 Type 字段标记当前帧的类型，包括管理帧、控制帧、数据帧三类；Sub-type 字段标记每种帧类型中的子类型，不同类型的帧有不同的处理方式。 Frame Control 字段 Duration / ID 这个字段有三种形式，如下图。设定 NAV 时，第 15 位为 0，其他位标识 NAV 的值，单位为微秒；在无竞争周期传送的帧中，第 14、15 位为 01，其余位均为 0，用来公告所有 STA 网络无竞争周期，避免它们干扰传送；在 PS-Poll（省电轮询）帧中，第 14、15 位为 11，其他位则表示 AID（Association ID），AP 用来查找相应的缓冲帧。 Duration / ID 字段的表示形式 Address...","categories": ["技术"],
+        "tags": ["网络","WLAN"],
+        "url": "https://www.lnki.me/2018/09/wlan-frame/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
         "title": "常见协议之 ARP 与 DHCP",
         "excerpt":"一、ARP ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。 发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。 ARP 地址解析过程 除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的...","categories": ["技术"],
         "tags": ["网络"],
