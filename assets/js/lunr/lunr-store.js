@@ -1,5 +1,11 @@
 var store = [{
         "title": "",
+        "excerpt":"                                放在门外的箱子终于长猫了        ","categories": [],
+        "tags": [],
+        "url": "https://www.lnki.me/meow/2019/09/26/",
+        "teaser": "https://www.lnki.me/contents/meow/20190926-teaser.webp"
+      },{
+        "title": "",
         "excerpt":"                                毫不在意形象        ","categories": [],
         "tags": [],
         "url": "https://www.lnki.me/meow/2020/01/20/",
