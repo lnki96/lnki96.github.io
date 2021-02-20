@@ -1,1 +1,1 @@
-# lnki96.github.io
+# lnki96.github.io [![Build Status](https://travis-ci.com/lnki96/lnki96.github.io.svg?branch=main)](https://travis-ci.com/lnki96/lnki96.github.io)
