@@ -29,6 +29,12 @@ var store = [{
         "url": "https://www.lnki.me/2018/09/wlan-frame/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       },{
+        "title": "WLAN 中的安全机制概述",
+        "excerpt":"WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。 一、安全标准 WLAN 的安全功能最早由 WEP 提供，WEP 在初版 802.11 标准中就已经引入，其被发现存在漏洞后，IEEE 推出了 802.11i，旨在增强 WLAN 安全性，这也是现行的 WLAN 安全标准，WPA 是其子集的技术实现，由 Wi-Fi 联盟推出，除了引进新技术，该标准也对 WEP 进行了改进。 1. IEEE 802.11i 架构1 IEEE 802.11i 架构 图中可以看出，802.11i 主要分为加密、密钥管理、身份认证三个部分。加密和密钥管理机制工作在 MAC 层，WEP、TKIP、CCMP 负责数据加密，密钥管理机制就是进行密钥派生，它根据 PMK 生成 PTK、GTK 等一系列密钥供加密协议使用；身份认证机制工作在 LLC 层及以上范围，802.1X 负责身份认证，只有通过认证的端口才能传输数据，此外还会向密钥管理机制提供密钥。 2. 工作机制 当一台 STA...","categories": ["技术"],
+        "tags": ["网络","WLAN","安全"],
+        "url": "https://www.lnki.me/2018/09/wlan-sec-overview/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
         "title": "常见协议之 ARP 与 DHCP",
         "excerpt":"一、ARP ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。 发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。 ARP 地址解析过程 除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的...","categories": ["技术"],
         "tags": ["网络"],

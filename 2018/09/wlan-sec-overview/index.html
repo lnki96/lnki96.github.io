@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.21.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+--><html lang="zh" class="no-js">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>WLAN 中的安全机制概述 - Lnki’s Home · 网上冲浪日志</title>
+<meta name="description" content="WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/assets/images/site.webmanifest">
+<link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  <meta name="author" content="Lnki">
+  
+  <meta property="article:author" content="Lnki">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="Lnki's Home · 网上冲浪日志">
+<meta property="og:title" content="WLAN 中的安全机制概述">
+<meta property="og:url" content="https://www.lnki.me/2018/09/wlan-sec-overview/">
+
+
+  <meta property="og:description" content="WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。">
+
+
+
+  <meta property="og:image" content="https://www.lnki.me/assets/images/header.webp">
+
+
+
+
+
+  <meta property="article:published_time" content="2018-09-15T00:00:00+08:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://www.lnki.me/2018/09/wlan-sec-overview/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Lnki",
+      "url": "https://www.lnki.me/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="P-phvtaGdTKHufE7PPSHDPWodvUBT2Ml9dmAWSkfZ-o">
+
+
+  <meta name="msvalidate.01" content="F971B875E4FFC4A9975C44932501E596">
+
+
+
+
+
+  <meta name="baidu-site-verification" content="code-5mw42wt3aD">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Lnki's Home · 网上冲浪日志 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">跳转链接</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Lnki's Home
+          <span class="site-subtitle">网上冲浪日志</span>
+        </a>
+        <ul class="visible-links">
+<li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/categories/">分类</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/tags/">标签</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/archives/">归档</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/about/">关于</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/meow/">喵～</a>
+            </li>
+</ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">切换菜单</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/header.webp');">
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          WLAN 中的安全机制概述
+
+        
+      </h1>
+      
+      
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-15T00:00:00+08:00">2018 年 9 月 15 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 15 分钟
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar.png" alt="Lnki" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Lnki</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个普通的唯物主义者</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">关注</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">猎户座悬臂</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:lnki96@hotmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">lnki96@hotmail.com</span></a></li>
+          
+        
+          
+            <li><a href="https://www.lnki.me" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Lnki's Home</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/lnki96" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="WLAN 中的安全机制概述">
+    <meta itemprop="description" content="WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。">
+    <meta itemprop="datePublished" content="2018-09-15T00:00:00+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title">
+<i class="fas fa-file-alt"></i> 目录</h4></header>
+              <ul class="toc__menu">
+  <li>
+<a href="#%E4%B8%80%E5%AE%89%E5%85%A8%E6%A0%87%E5%87%86">一、安全标准</a>
+    <ul>
+      <li><a href="#1-ieee-80211i-%E6%9E%B6%E6%9E%84">1. IEEE 802.11i 架构</a></li>
+      <li><a href="#2-%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6">2. 工作机制</a></li>
+      <li><a href="#3-%E5%BC%95%E5%85%A5%E7%9A%84-8021x-%E5%86%85%E5%AE%B9">3. 引入的 802.1X 内容</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#%E4%BA%8C%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81">二、身份认证</a>
+    <ul>
+      <li>
+<a href="#1-%E9%93%BE%E8%B7%AF%E8%AE%A4%E8%AF%81">1. 链路认证</a>
+        <ul>
+          <li><a href="#%E2%85%B0-%E5%BC%80%E6%94%BE%E7%B3%BB%E7%BB%9F%E8%AE%A4%E8%AF%81">Ⅰ· 开放系统认证</a></li>
+          <li><a href="#%E2%85%B1-%E5%85%B1%E4%BA%AB%E5%AF%86%E9%92%A5%E8%AE%A4%E8%AF%81">Ⅱ· 共享密钥认证</a></li>
+        </ul>
+      </li>
+      <li><a href="#2-%E6%8E%A5%E5%85%A5%E8%AE%A4%E8%AF%81">2. 接入认证</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#%E4%B8%89%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE">三、安全协议</a>
+    <ul>
+      <li><a href="#1-tkip">1. TKIP</a></li>
+      <li><a href="#2-ccmp">2. CCMP</a></li>
+      <li><a href="#3-%E5%8D%8F%E8%AE%AE%E6%AF%94%E8%BE%83">3. 协议比较</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#%E5%9B%9B%E5%AF%86%E9%92%A5%E7%AE%A1%E7%90%86">四、密钥管理</a>
+    <ul>
+      <li><a href="#1-%E5%AF%86%E9%92%A5%E7%BB%84%E6%88%90">1. 密钥组成</a></li>
+      <li><a href="#2-%E5%AF%86%E9%92%A5%E6%9D%A5%E6%BA%90%E4%B8%8E%E5%88%86%E9%85%8D">2. 密钥来源与分配</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#%E4%BA%94%E4%B8%80%E4%BA%9B%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E7%89%B9%E6%80%A7">五、一些安全相关的特性</a>
+    <ul>
+      <li>
+<a href="#1-%E9%A2%84%E5%85%88%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81">1. 预先身份认证</a>
+        <ul>
+          <li><a href="#%E2%85%B0-80211-%E9%A2%84%E5%85%88%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81">Ⅰ· 802.11 预先身份认证</a></li>
+          <li><a href="#%E2%85%B1-80211i-%E9%A2%84%E5%85%88%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E4%B8%8E%E5%AF%86%E9%92%A5%E7%BC%93%E5%AD%98">Ⅱ· 802.11i 预先身份认证与密钥缓存</a></li>
+        </ul>
+      </li>
+      <li><a href="#2-%E5%B8%A7%E7%AD%89%E7%BA%A7%E4%B8%8E%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%8A%B6%E6%80%81">2. 帧等级与身份认证状态</a></li>
+    </ul>
+  </li>
+  <li><a href="#%E5%85%AD%E6%80%BB%E7%BB%93">六、总结</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。</p>
+
+<h2 id="一安全标准">一、安全标准</h2>
+
+<p>WLAN 的安全功能最早由 WEP 提供，WEP 在初版 802.11 标准中就已经引入，其被发现存在漏洞后，IEEE 推出了 802.11i，旨在增强 WLAN 安全性，这也是现行的 WLAN 安全标准，WPA 是其子集的技术实现，由 Wi-Fi 联盟推出，除了引进新技术，该标准也对 WEP 进行了改进。</p>
+
+<h3 id="1-ieee-80211i-架构">1. IEEE 802.11i 架构<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>
+</h3>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-arch.webp" alt="IEEE 802.11i 架构图">
+  <figcaption>
+      IEEE 802.11i 架构
+
+    </figcaption></figure>
+
+<p>图中可以看出，802.11i 主要分为加密、密钥管理、身份认证三个部分。加密和密钥管理机制工作在 MAC 层，WEP、TKIP、CCMP 负责数据加密，密钥管理机制就是进行密钥派生，它根据 PMK 生成 PTK、GTK 等一系列密钥供加密协议使用；身份认证机制工作在 LLC 层及以上范围，802.1X 负责身份认证，只有通过认证的端口才能传输数据，此外还会向密钥管理机制提供密钥。</p>
+
+<h3 id="2-工作机制">2. 工作机制</h3>
+
+<p>当一台 STA 加入一个支持 802.11i 的 WLAN 时，802.11i 的工作流程总体分为四个阶段：</p>
+
+<ol>
+  <li>参数通报协商阶段：STA 从 AP 广播的 Beacon 中了解 WLAN 的安全配置，然后进行链路认证与关联，完成 WLAN 连接的建立，期间若双方支持的认证和加密方法不兼容，则会连接失败。</li>
+  <li>身份认证阶段：STA 连接后要进行身份认证，过程中会产生密钥，它可以由认证服务器生成，也可以由预先配置的口令生成。</li>
+  <li>密钥协商阶段：协商和配置 STA 与 AP 之间传送数据所需的通信密钥，由前一阶段产生的密钥派生而来。</li>
+  <li>通信阶段：使用通信密钥，经过指定的加密协议加密数据后传送。</li>
+</ol>
+
+<h3 id="3-引入的-8021x-内容">3. 引入的 802.1X 内容</h3>
+
+<p>802.11i 引入了一些来自 802.1X 的组件，主要用于 WLAN 安全中的身份认证与密钥管理部分。这些组件包括：</p>
+
+<ul>
+  <li>非受控端口（Uncontrolled Port）：未认证的端口，只允许 802.1X 的消息通过；</li>
+  <li>受控端口（Controlled Port）：允许通过或屏蔽其他的所有数据消息；</li>
+  <li>认证者（Authenticator）、申请者（Supplicant）：与远程设备进行身份认证与密钥管理交互的本地设备；</li>
+  <li>认证服务器（Authentication Server，AS）：集中管理身份认证和访问控制的设备。</li>
+</ul>
+
+<h2 id="二身份认证">二、身份认证<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote">2</a></sup>
+</h2>
+
+<p>WLAN 中的身份认证主要分两大类：链路认证和接入认证，它们主要区别在于产生作用的时机，前者发生在关联建立之前，后者则是在关联建立之后。由于 WLAN 中的关联就像是以太网中连接网线的动作，那么可以这么理解，链路认证控制的是物理链路的使用权，认证通过的设备才可以连接“网线”，而接入认证控制的是局域网的访问权，接入网络的设备必须通过认证才能正常访问其他设备。</p>
+
+<h3 id="1-链路认证">1. 链路认证</h3>
+
+<p>链路认证是一种很弱的认证方式，不能提供足够的安全性，它不传递或验证任何加密密钥，也不进行双向的身份认证。</p>
+
+<h4 id="ⅰ-开放系统认证">Ⅰ· 开放系统认证</h4>
+
+<p>开放系统认证（Open System Authentication，OSA）就是不认证，只是简单地进行一次 Authentication Request/Response 交换，任何 STA 都可以认证成功。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/wlan-auth-open.webp" alt="开放系统认证握手过程图">
+  <figcaption>
+      开放系统认证过程
+
+    </figcaption></figure>
+
+<h4 id="ⅱ-共享密钥认证">Ⅱ· 共享密钥认证</h4>
+
+<p>共享密钥认证（Shared Key Authentication，SKA）使用 WEP，STA 和 AP 预先配置相同的共享密钥，这套机制下只要密钥配置一致即认证成功。认证过程如下图：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/wlan-auth-wep.webp" alt="共享密钥认证握手过程图">
+  <figcaption>
+      共享密钥认证过程
+
+    </figcaption></figure>
+
+<ol>
+  <li>STA 向 AP 发送 Authentication Request；</li>
+  <li>AP 回复携带有明文质询文本的 Authentication Response；</li>
+  <li>STA 发送经 WEP 处理的 Authentication Response 帧，携带密文质询文本；</li>
+  <li>AP 收到后，对密文予以解密，验证 WEP 的完整性，若通过完整性校验，AP 就会响应一个携带认证成功的状态码的 Authentication Response。</li>
+</ol>
+
+<h3 id="2-接入认证">2. 接入认证</h3>
+
+<p>接入认证基于 802.1X，相比于链路认证，它可以提供更可靠的安全性。</p>
+
+<p>IEEE 802.1X 基础是 EAP，在认证通过前，只允许 EAPoL（EAP over LAN）帧通过相连的端口，其定义了 3 种角色，分别为申请者 (Supplicant)、认证者 (Authenticator) 以及认证服务器（例如 RADIUS），如下图：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/8021x-roles.webp" alt="IEEE 802.1X 角色示意图">
+  <figcaption>
+      IEEE 802.1X 中的角色
+
+    </figcaption></figure>
+
+<p>申请者是寻求访问网络资源的设备，认证者扮演交换机的角色，负责链路层的认证交换过程，并负责分配密钥和端口的管理，认证服务器执行身份认证逻辑，有多种认证方法可选。申请者和认证者之间采用 EAPoL 帧，在第二层通信，认证者和认证服务器之间采用 IP 封包，在第三层通信。在 WLAN 中，申请者是要加入网络的 STA，认证者是所关联的 AP，认证服务器位于骨干网络中。</p>
+
+<p>在 802.11 网络中，典型的 802.1X 认证成功的交互过程如下：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/8021x-procedure.webp" alt="802.1X 交换过程图">
+  <figcaption>
+      802.11 网络中的 802.1X 交换
+
+    </figcaption></figure>
+
+<ol>
+  <li>STA 先关联至 AP；</li>
+  <li>然后 STA 发起 802.1X 交换，首先发送 EAPoL-Start；</li>
+  <li>AP 回复身份认证请求；</li>
+  <li>STA 响应身份标识；</li>
+  <li>AP 告知 STA 要使用的身份认证方法，数据字段中包含质询信息；</li>
+  <li>STA 按照指定的认证方法处理质询信息并回应，取决于具体的认证方法，以上两步可能会进行多轮，直到认证成功；</li>
+  <li>成功后 AP 回复认证成功；</li>
+  <li>接着 AP 再与 STA 协商密钥，至此认证完成，待密钥协商完成 STA 便可以访问网络了；</li>
+  <li>当 STA 不再需要访问网络时，发送 EAPoL-Logoff，撤销授权。</li>
+</ol>
+
+<h2 id="三安全协议">三、安全协议</h2>
+
+<h3 id="1-tkip">1. TKIP</h3>
+
+<p>TKIP（Temporal Key Integrity Protocol）即临时密钥完整性协议，是 WEP 的改进版，为了兼容算力较弱的旧系统，TKIP 提供的保护依然较弱，但去除了 WEP 的漏洞，这种保护至少是完整的。</p>
+
+<p>考虑到兼容，TKIP 的封装过程与 WEP 有些类似，格式如下图：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-tkip-encap.webp" alt="TKIP 封装格式图">
+  <figcaption>
+      TKIP 封装格式
+
+    </figcaption></figure>
+
+<p>TKIP 标头在 MAC 标头之后，IV / Key ID（初始向量 / 密钥 ID）长度 4 字节，保留自 WEP，但有不同含义，最前面的 3 字节记录了部分的 TKIP 序列号和目前使用的密钥编号，虽然 TKIP 支持多组密钥，但只有 Key ID 0 才会被分配使用，EIV（Extended IV，扩展初始向量）则是用来记录 TKIP 序列号的其余部分，这里的序列号是为了防止重放攻击，接下来 TKIP 在有效载荷后加上 MIC（消息完整性校验）码，最后 WEP 会加入其自身的 ICV（完整性校验值），以尽量维持 WEP 格式不变。</p>
+
+<h3 id="2-ccmp">2. CCMP</h3>
+
+<p>CCMP（Counter Mode with CBC-MAC Protocol）即计数器模式及密码块链消息认证码协议，是 802.11i 引入的全新设计的数据保护协议，它满足了 802.11i 中的所有安全指标，使用 AES 块加密算法，规避了 WEP 所使用的 RC4 流加密的安全隐患。</p>
+
+<p>CCMP 的封装过程相当直接，格式如下图：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-ccmp-encap.webp" alt="CCMP 封装格式图">
+  <figcaption>
+      CCMP 封装格式
+
+    </figcaption></figure>
+
+<p>CCMP 标头长度为 8 字节，在 MAC 标头之后，记录了 6 字节长的 PN（Packet Number，封包编号），PN 值随每次传输逐渐累加，用于防止重放攻击，封装时 PN 被从第 2、3 字节拆开来，中间填入 13 bit 值为 <code class="language-plaintext highlighter-rouge">0</code> 的保留位、1 bit 值恒为 <code class="language-plaintext highlighter-rouge">1</code> 的 EIV 和 2 bit 的 Key ID，最后，在负载数据之后加上 8 字节的 MIC。</p>
+
+<h3 id="3-协议比较">3. 协议比较<sup id="fnref:1:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>
+</h3>
+
+<div class="table-wrapper">
+  <table>
+<caption>
+        IEEE 802.11i 数据保护协议比较
+
+    </caption>
+
+  <thead>
+    <tr>
+      <th rowspan="2">安全协议
+<br>
+</th>
+      <th rowspan="2">加密算法
+<br>
+</th>
+      <th rowspan="2">密钥长度
+<br>
+</th>
+      <th colspan="2">完整性校验</th>
+      <th rowspan="2">密钥管理
+<br>
+</th>
+      
+    </tr>
+    <tr>
+      
+      
+      
+      <th>数据</th>
+      <th>标头</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>WEP</td>
+      <td>RC4</td>
+      <td>40 或 104 bit</td>
+      <td>CRC-32</td>
+      <td>无</td>
+      <td>无</td>
+    </tr>
+    <tr>
+      <td>TKIP</td>
+      <td>RC4</td>
+      <td>128 bit 加密<br>64 bit 防伪</td>
+      <td>Michael</td>
+      <td>Michael</td>
+      <td>802.11i 四次握手</td>
+    </tr>
+    <tr>
+      <td>CCMP</td>
+      <td>AES</td>
+      <td>128 bit</td>
+      <td>CCM</td>
+      <td>CCM</td>
+      <td>802.11i 四次握手</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<h2 id="四密钥管理">四、密钥管理</h2>
+
+<h3 id="1-密钥组成">1. 密钥组成</h3>
+
+<p>802.11i 规定链路层加密协议使用两种密钥：成对密钥（Pairwise Key）、组密钥（Group Key），前者用来保护 STA 与 AP 之间往来的单播数据，后者用来保护 AP 与所关联的 STA 之间的广播或组播数据。TKIP 和 CCMP 均使用单一主密钥来产生操作过程中所需的其他密钥，802.11i 引入了密钥分级机制，其目的之一是为了保护这些派生密钥的传送。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-pairwise-key.webp" alt="成对密钥层次结构图">
+  <figcaption>
+      成对密钥层次结构
+
+    </figcaption></figure>
+
+<p>在成对密钥体系中，主密钥称为成对主密钥（PMK），长度为 256 bit。临时密钥通过伪随机函数展开 PMK 来获得，这里展开的临时密钥被称为成对临时密钥（PTK）。TKIP 和 CCMP 均使用 EAPoL-Key 来保护传送的帧，它包含两个 128 bit 的密钥，一个是 EAPoL 密钥确认密钥（EAPoL Key Confirmation Key, KCK），用于验证密钥生成消息的完整性，一种是 EAPoL 密钥加密密钥（EAPOL Key Encryption Key, KEK），用来加密密钥生成消息，KCK 和 KEK 均派生自 PTK。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-group-key.webp" alt="组密钥层次结构图">
+  <figcaption>
+      组密钥层次结构
+
+    </figcaption></figure>
+
+<p>在组密钥体系中，认证者持有组主密钥（GMK），GMK 是临时密钥的基础，长度为 128 bit，生成的临时密钥称为组临时密钥（GTK），这里不会产生 KCK 和 KEK，因为广播和组播不会发生密钥交换的过程。</p>
+
+<h3 id="2-密钥来源与分配">2. 密钥来源与分配</h3>
+
+<p>802.11i 密钥交换时，成对密钥分别通过各自的握手流程加以更新，如下图所示：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-key-handshake.webp" alt="密钥交换流程图">
+  <figcaption>
+      成对密钥交换与组密钥交换的握手流程
+
+    </figcaption></figure>
+
+<p>成对密钥通过四次握手分配，密钥更新前，申请者与认证者均持有一个共享的 PMK：</p>
+
+<ol>
+  <li>认证者将 nonce 传给申请者，这里的 nonce 是用于防范重放攻击的随机值，同时申请者生成一个 nonce，与认证者发送的 nonce、双方的 MAC 地址一并用于 PMK 的展开，生成完整的密钥层次结构；</li>
+  <li>申请者向认证者发送自己的 nonce 以及初次与网络关联时所获取的安全参数，这条消息使用 KCK 计算的校验值来验证完整性，认证者同样使用双方的 nonce 和 MAC 地址将 PMK 展开为完整的密钥层次结构；</li>
+  <li>双方已经准备好密钥，但需要进一步确认，认证者发送新生成的成对密钥的序列号，以及新生成的 GTK，以便后续更新组密钥，消息使用 KEK 加密，使用 KCK 验证完整性；</li>
+  <li>申请者向认证者发送一个确认消息，告知已收到密钥，可以开始使用新密钥，该消息使用 KCK 验证完整性。</li>
+</ol>
+
+<p>组密钥交换比成对密钥简单，只有两步：</p>
+
+<ol>
+  <li>第一步认证者使用 KEK 加密发送 GTK，消息使用 KCK 校验；</li>
+  <li>第二部申请者发送确认消息，开始使用新的 GTK，此消息同样使用 KCK 校验。</li>
+</ol>
+
+<h2 id="五一些安全相关的特性">五、一些安全相关的特性</h2>
+
+<h3 id="1-预先身份认证">1. 预先身份认证</h3>
+
+<p>预先身份认证（Preauthentication）用来加速关联转移，所谓关联转移就是 Wi-Fi 中的漫游，802.11 将认证过程和关联操作加以拆解，使它们可以独立进行，预先身份认证允许已连接到 WLAN 的 STA 在同一 ESS 内切换 BSS 时，不用重复进行身份认证，而是直接与新 AP 建立关联，以此实现关联转移的加速。</p>
+
+<h4 id="ⅰ-80211-预先身份认证">Ⅰ· 802.11 预先身份认证</h4>
+
+<p>802.11 并未要求链路认证之后必须立即进行关联操作。STA 可以同时和多个 AP 进行链路认证，然后和其中一个 AP 建立关联，在切换时，STA 先和 AP 断开关联，然后和新的 AP 进行关联，建立关联后即可进行数据传输。</p>
+
+<h4 id="ⅱ-80211i-预先身份认证与密钥缓存">Ⅱ· 802.11i 预先身份认证与密钥缓存</h4>
+
+<p>由于 802.11i 的身份认证基于 802.1X，而 802.1X 认证过程又需要来回传递多个帧，比较费时。预先身份认证让 STA 在与新的 AP 建立关联之前事先建立一个安全配置，实现关联转移的加速。WPA 则明确排除了预先身份认证的使用。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211i-eap-pre-auth.webp" alt="802.11i 预先身份认证示意图">
+  <figcaption>
+      802.11i 预先身份认证
+
+    </figcaption></figure>
+
+<p>上图中，STA 通过与 AP1 关联加入 WLAN，在 STA 切换到 AP2 之前，进行预先身份认证：</p>
+
+<ol>
+  <li>STA 经由 AP1 与 AP2 进行 802.1X 认证，完成后 STA 与 AP2 生成相应的的密钥并缓存；</li>
+  <li>待 STA 出发关联切换，关联就会从 AP1 转移到 AP2；</li>
+  <li>STA 向 AP2 提供事先准备的缓存密钥，告知已通过身份认证；</li>
+  <li>AP2 找到匹配的密钥，就开始密钥交换流程，密钥配置完成后，便可以传输数据了。</li>
+</ol>
+
+<p>预先身份认证实际上仍是完整的 802.1X 认证过程，因为 STA 只能和一个 AP 建立关联，STA 和 AP2 之间的帧都要经过 AP1，在从 STA 发往 AP2 的帧中，源地址为 STA，接收端地址为 AP1，目的地址为 AP2，AP1 收到帧后经分布式系统转发至 AP2。</p>
+
+<h3 id="2-帧等级与身份认证状态">2. 帧等级与身份认证状态<sup id="fnref:2:1" role="doc-noteref"><a href="#fn:2" class="footnote">2</a></sup>
+</h3>
+
+<p>在 802.11 网络中，有三种身份认证状态，这里的状态是指链路认证状态，每种状态能传送的帧类型不同，这些帧被划分为三个等级，对应于三种身份认证状态的权限等级。身份认证状态中状态 1 为初始状态，即未认证且未关联的，状态 2 为已认证但尚未关联，状态 3 为已认证且已关联，转换关系如下图所示：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-frame-class.webp" alt="802.11 整体状态图">
+  <figcaption>
+      802.11 身份认证状态及帧等级
+
+    </figcaption></figure>
+
+<ul>
+  <li>第 3 级帧包括 PS-Poll、Deauthentication 和除了 ToDS 与 FromDS 都置为 0 的全部数据帧，这些帧只有在状态 3 下才能传送；</li>
+  <li>第 2 级帧只有 5 种管理帧，包括 Association Request / Response、Reassociation Request / Response 和 Disassociation，这些帧只能在状态 2 和状态 3 下传送；</li>
+  <li>第 1 级帧是除了第 2、3 级之外的所有帧，在任何状态下都可传送。</li>
+</ul>
+
+<p>Deauthentication 和 Disassociation 携带的与帧等级有关的 Reason Code 如下：</p>
+
+<ul>
+  <li>6：在未身份验证的状态下接收到了第 2 级帧</li>
+  <li>7：在未关联的状态下接收了第 3 级帧</li>
+  <li>9：STA 未通过身份验证便请求关联</li>
+</ul>
+
+<h2 id="六总结">六、总结</h2>
+
+<p>经过梳理，我们了解到，WLAN 的安全系统主要由身份认证、密钥管理和加密传输等部分组成，WEP 是最早的安全机制，802.11i 是后来推出的安全标准，WPA/WPA2 则是 Wi-Fi 联盟推出的这一标准子集的实现。802.11i 标准中，身份认证基于802.1X，而 802.1X 基于 EAP，密钥管理和加密传输则基于 TKIP、CCMP 等协议。</p>
+
+<p>生活中常见的安全系统有 WEP、WPA/WPA2、WAPI 等等，配置安全系统时，管理员设定这些安全服务所使用的安全技术，形成一套安全策略。下表列举几种安全策略：</p>
+
+<div class="table-wrapper">
+  <table>
+<caption>
+        WLAN 安全策略
+
+    </caption>
+
+  <thead>
+    <tr>
+      <th>安全策略</th>
+      <th>链路认证</th>
+      <th>接入认证</th>
+      <th>数据加密</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">WEP
+<br>
+</td>
+      <td>Open</td>
+      <td>无</td>
+      <td>不加密或 WEP 加密</td>
+      <td rowspan="2">不安全
+<br>
+</td>
+    </tr>
+    <tr>
+      
+      <td>SKA</td>
+      <td>无</td>
+      <td>WEP</td>
+      
+    </tr>
+    <tr>
+      <td>WPA/WPA2-PSK</td>
+      <td>Open</td>
+      <td>PSK</td>
+      <td>TKIP 或 CCMP</td>
+      <td>目前常用的是 WPA2-PSK，适用于个人和企业</td>
+    </tr>
+    <tr>
+      <td>WPA/WPA2-Enterprise</td>
+      <td>Open</td>
+      <td>802.1X（EAPoL）</td>
+      <td>TKIP 或 CCMP</td>
+      <td>目前常用的是 WPA2-Enterprise，适用于企业</td>
+    </tr>
+    <tr>
+      <td>WAPI-PSK</td>
+      <td>Open</td>
+      <td>PSK</td>
+      <td>SMS4</td>
+      <td rowspan="2">应用较少
+<br>
+</td>
+    </tr>
+    <tr>
+      <td>WAPI-CERT</td>
+      <td>Open</td>
+      <td>证书认证</td>
+      <td>SMS4</td>
+      
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<p>到这里，应该就有一个关于 WLAN 安全的认知框架了。</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Clint Chaplin, Emily Qi, Henry Ptasinski, Jesse Walker, Sheung Li. 802.11i Overview[EB/OL]. <a href="https://www.ieee802.org/16/liaison/docs/80211-05_0123r1.pdf">URL</a>, 2005-02-09. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a> <a href="#fnref:1:1" class="reversefootnote" role="doc-backlink">↩<sup>2</sup></a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Gast, M. S. 802.11® 无线网络权威指南[M]. 第 2 版. O’Reilly Taiwan 公司. 南京 - 东南大学出版社, 2007.12: 142-195,123-126。 <a href="#fnref:2" class="reversefootnote" role="doc-backlink">↩</a> <a href="#fnref:2:1" class="reversefootnote" role="doc-backlink">↩<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      
+        <footer class="page__meta">
+          
+          
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#wlan" class="page__taxonomy-item" rel="tag">WLAN</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#%E5%AE%89%E5%85%A8" class="page__taxonomy-item" rel="tag">安全</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#%E7%BD%91%E7%BB%9C" class="page__taxonomy-item" rel="tag">网络</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#%E6%8A%80%E6%9C%AF" class="page__taxonomy-item" rel="tag">技术</a>
+    
+    </span>
+  </p>
+
+
+          
+            
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间：</strong> <time datetime="2018-09-15T00:00:00+08:00">2018 年 9 月 15 日</time></p>
+
+
+          
+        </footer>
+      
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/2018/09/wlan-frame/" class="pagination--pager" title="IEEE 802.11 MAC 帧
+">上一页</a>
+    
+    
+      <a href="/2018/09/arp-dhcp/" class="pagination--pager" title="常见协议之 ARP 与 DHCP
+">下一页</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <section id="static-comments">
+        
+          <!-- Start static comments -->
+          <div class="js-comments">
+            
+          </div>
+          <!-- End static comments -->
+
+          <!-- Start new comment form -->
+          <div class="page__comments-form">
+            <h4 class="page__comments-title">留下评论</h4>
+            <p class="small">您的电子邮箱地址并不会被展示。请填写标记为必须的字段。 <span class="required">*</span></p>
+            <form id="new_comment" class="page__comments-form js-form form" method="post" action="https://www-api.lnki.me/v3/entry/github/lnki96/lnki96.github.io/main/comments">
+              <div class="form__spinner">
+                <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                <span class="sr-only">正在加载...</span>
+              </div>
+
+              <div class="form-group">
+                <label for="comment-form-message">评论 <small class="required">*</small></label>
+                <textarea type="text" rows="3" id="comment-form-message" name="fields[message]" tabindex="1"></textarea>
+                <div class="small help-block"><a href="https://daringfireball.net/projects/markdown/">支持 Markdown 语法。</a></div>
+              </div>
+              <div class="form-group">
+                <label for="comment-form-name">姓名 <small class="required">*</small></label>
+                <input type="text" id="comment-form-name" name="fields[name]" tabindex="2">
+              </div>
+              <div class="form-group">
+                <label for="comment-form-email">电子邮箱 <small class="required">*</small></label>
+                <input type="email" id="comment-form-email" name="fields[email]" tabindex="3">
+              </div>
+              <div class="form-group">
+                <label for="comment-form-url">网站（可选）</label>
+                <input type="url" id="comment-form-url" name="fields[url]" tabindex="4">
+              </div>
+              <div class="form-group hidden" style="display: none;">
+                <input type="hidden" name="options[slug]" value="wlan-sec-overview">
+                <label for="comment-form-location">Not used. Leave blank if you are a human.</label>
+                <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off">
+                <input type="hidden" name="options[reCaptcha][siteKey]" value="6Lfi0TkaAAAAAL7-p7VJ15DjbJnVpRADclZZn5wn">
+                <input type="hidden" name="options[reCaptcha][secret]" value="jB4YHVk57lH08E51ejDzfcxljF6bmEy0OuEei7ZSwf+Tjc9iV6p5xOrrdpWV7Z6ONdK4CiHdHBpAF3LV/Anzv4bWV2KPncp5rBlUhDSKIvmfHKpVnECox095X4umwezPSJrlINu7byw3Ol82AayLeB9RB1GcFwzTFS6SeXA+Nvw=">
+              </div>
+              <!-- Start comment form alert messaging -->
+              <p class="hidden js-notice">
+                <strong class="js-notice-text"></strong>
+              </p>
+              <!-- End comment form alert messaging -->
+              
+                <div class="form-group">
+                  <div class="g-recaptcha" data-sitekey="6Lfi0TkaAAAAAL7-p7VJ15DjbJnVpRADclZZn5wn"></div>
+                </div>
+              
+              <div class="form-group">
+                <button type="submit" id="comment-form-submit" tabindex="5" class="btn btn--primary btn--large">提交评论</button>
+              </div>
+            </form>
+          </div>
+          <!-- End new comment form -->
+          <script async src="https://www.recaptcha.net/recaptcha/api.js"></script>
+        
+      </section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">猜您还喜欢</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/arp-dhcp/" rel="permalink">常见协议之 ARP 与 DHCP
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-30T00:00:00+08:00">2018 年 9 月 30 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 3 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">一、ARP
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/wlan-frame/" rel="permalink">IEEE 802.11 MAC 帧
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-13T00:00:00+08:00">2018 年 9 月 13 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 10 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/wlan-mac/" rel="permalink">IEEE 802.11 MAC 基础盘点
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-12T00:00:00+08:00">2018 年 9 月 12 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 5 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">这里简单过一过 IEEE 802.11 MAC 层的常见概念1，了解这些名词基本的的用途和目的，具体原理就不做深入讨论了。
+
+
+  
+    
+      Gast, M. S. 802.11® 无线网络权威指南[M]. 第 2 版. O’Reilly Taiwan 公司. 南京 - 东南大学出版社, 2007....</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/wlan-overview/" rel="permalink">IEEE 802.11 概览
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-11T00:00:00+08:00">2018 年 9 月 11 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 10 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap">
+<form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词...">
+  </form>
+  <div id="results" class="results"></div>
+</div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>关注:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2018 - 2021 Lnki. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9YVFY07C9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y9YVFY07C9', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    (function ($) {
+    $('#new_comment').submit(function () {
+      var form = this;
+
+      $(form).addClass('disabled');
+      $('#comment-form-submit').html('<i class="fas fa-spinner fa-spin fa-fw"></i> 正在加载...');
+
+      $.ajax({
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+          $('#comment-form-submit').html('已提交');
+          $('.page__comments-form .js-notice').removeClass('notice--danger');
+          $('.page__comments-form .js-notice').addClass('notice--success');
+          showAlert('感谢您的评论！被批准后它会立即在此站点展示。');
+        },
+        error: function (err) {
+          console.log(err);
+          $('#comment-form-submit').html('提交评论');
+          $('.page__comments-form .js-notice').removeClass('notice--success');
+          $('.page__comments-form .js-notice').addClass('notice--danger');
+          showAlert('很抱歉，您的提交存在错误。请确保所有必填字段都已填写正确，然后再试一次。');
+          $(form).removeClass('disabled');
+        }
+      });
+
+      return false;
+    });
+
+    function showAlert(message) {
+      $('.page__comments-form .js-notice').removeClass('hidden');
+      $('.page__comments-form .js-notice-text').html(message);
+    }
+  })(jQuery);
+  </script>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
