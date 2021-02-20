@@ -5,28 +5,40 @@
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
-<html lang="en" class="no-js">
+<html lang="zh" class="no-js">
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Site Title</title>
-<meta name="description" content="An amazing website.">
+<!-- begin _includes/seo.html --><title>  Lnki’s Home · 网上冲浪日志</title>
+<meta name="description" content="这里是 Lnki 的小站，我在这里分享知识、记录日常。">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/assets/images/site.webmanifest">
+<link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
 
 
-  <meta name="author" content="Your Name">
+  <meta name="author" content="Lnki">
   
 
 
 <meta property="og:type" content="website">
-<meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="Site Title">
-<meta property="og:title" content="Site Title">
-<meta property="og:url" content="/">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="Lnki's Home · 网上冲浪日志">
+<meta property="og:title" content="Lnki’s Home · 网上冲浪日志">
+<meta property="og:url" content="https://www.lnki.me/">
 
 
-  <meta property="og:description" content="An amazing website.">
+  <meta property="og:description" content="这里是 Lnki 的小站，我在这里分享知识、记录日常。">
 
 
+
+  <meta property="og:image" content="https://www.lnki.me/assets/images/header.webp">
 
 
 
@@ -41,7 +53,7 @@
   
 
 
-<link rel="canonical" href="/">
+<link rel="canonical" href="https://www.lnki.me/">
 
 
 
@@ -51,21 +63,28 @@
     "@context": "https://schema.org",
     
       "@type": "Person",
-      "name": "Your Name",
-      "url": "/"
+      "name": "Lnki",
+      "url": "https://www.lnki.me/"
     
   }
 </script>
 
 
+  <meta name="google-site-verification" content="P-phvtaGdTKHufE7PPSHDPWodvUBT2Ml9dmAWSkfZ-o" />
+
+
+  <meta name="msvalidate.01" content="F971B875E4FFC4A9975C44932501E596">
 
 
 
+
+
+  <meta name="baidu-site-verification" content="code-5mw42wt3aD" />
 
 <!-- end _includes/seo.html -->
 
 
-<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Site Title Feed">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Lnki's Home · 网上冲浪日志 Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,11 +124,11 @@
 
   <body class="layout--home">
     <nav class="skip-links">
-  <h2 class="screen-reader-text">Skip links</h2>
+  <h2 class="screen-reader-text">跳转链接</h2>
   <ul>
-    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
-    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
-    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
   </ul>
 </nav>
 
@@ -124,16 +143,35 @@
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt=""></a>
+        
         <a class="site-title" href="/">
-          Site Title
-          
+          Lnki's Home
+          <span class="site-subtitle">网上冲浪日志</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/">Quick-Start Guide</a>
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">分类</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">标签</a>
+            </li><li class="masthead__menu-item">
+              <a href="/archives/">归档</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="/meow/">猫咪</a>
             </li></ul>
         
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
         <button class="greedy-nav__toggle hidden" type="button">
-          <span class="visually-hidden">Toggle menu</span>
+          <span class="visually-hidden">切换菜单</span>
           <div class="navicon"></div>
         </button>
         <ul class="hidden-links hidden"></ul>
@@ -145,6 +183,44 @@
 
     <div class="initial-content">
       
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/header.webp');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Lnki’s Home · 网上冲浪日志
+
+        
+      </h1>
+      
+        <p class="page__lead">欢迎访问 Lnki 的小站，这里分享知识，也记录日常。
+</p>
+      
+      
+
+
+
+
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
 
 
 
@@ -157,38 +233,50 @@
 <div itemscope itemtype="https://schema.org/Person">
 
   
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar.png" alt="Lnki" itemprop="image">
+      
+    </div>
+  
 
   <div class="author__content">
     
-      <h3 class="author__name" itemprop="name">Your Name</h3>
+      <h3 class="author__name" itemprop="name">Lnki</h3>
     
     
       <div class="author__bio" itemprop="description">
-        <p>I am an <strong>amazing</strong> person.</p>
+        <p>一个普通的唯物主义者</p>
 
       </div>
     
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
+    <button class="btn btn--inverse">关注</button>
     <ul class="author__urls social-icons">
       
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Somewhere</span>
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">猎户座悬臂</span>
         </li>
       
 
       
         
           
+            <li><a href="mailto:lnki96@hotmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">lnki96@hotmail.com</span></a></li>
+          
         
+          
+            <li><a href="https://www.lnki.me" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Lnki's Home</span></a></li>
           
         
           
         
           
         
+          
+            <li><a href="https://github.com/lnki96" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
           
@@ -261,11 +349,9 @@
 
   <div class="archive">
     
-      <h1 id="page-title" class="page__title"></h1>
-    
     
 
-<h3 class="archive__subtitle">Recent posts</h3>
+<h3 class="archive__subtitle">最新文章</h3>
 
 
 
@@ -282,6 +368,17 @@
     </div>
 
     
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
 
     <div id="footer" class="page__footer">
       <footer>
@@ -291,7 +388,7 @@
         <div class="page__footer-follow">
   <ul class="social-icons">
     
-      <li><strong>Follow:</strong></li>
+      <li><strong>关注:</strong></li>
     
 
     
@@ -314,7 +411,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2021 Your Name. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2018 - 2021 Lnki. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
@@ -322,6 +419,25 @@
     
   <script src="/assets/js/main.min.js"></script>
 
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9YVFY07C9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y9YVFY07C9', { 'anonymize_ip': false});
+</script>
 
 
 
