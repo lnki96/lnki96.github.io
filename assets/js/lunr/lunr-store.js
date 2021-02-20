@@ -24,6 +24,12 @@ var store = [{
         "teaser": "https://www.lnki.me/contents/meow/20200326-teaser.webp"
       },{
         "title": "",
+        "excerpt":"                                乖到模糊        ","categories": [],
+        "tags": [],
+        "url": "https://www.lnki.me/meow/2020/05/07/",
+        "teaser": "https://www.lnki.me/contents/meow/20200507-teaser.webp"
+      },{
+        "title": "",
         "excerpt":"                                琴盒里的猫，有点威风哦        ","categories": [],
         "tags": [],
         "url": "https://www.lnki.me/meow/2020/05/25/",
