@@ -11,6 +11,12 @@ var store = [{
         "url": "https://www.lnki.me/2018/09/network-model/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       },{
+        "title": "IEEE 802.11 概览",
+        "excerpt":"关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别： WLAN Wireless LAN，即无线局域网，一种局域网形式，物理介质为无线电波 IEEE 802.11 由 IEEE 制定的无线网络标准，a/b/g/n/ac 是该标准的几个迭代版本，IEEE 802.11 是现今 WLAN 的通用标准 Wi-Fi 一种基于 IEEE 802.11 标准的技术实现，是现今 WLAN 最常采用的技术，它也是 Wi-Fi 联盟的商用标志，用于产品的 WLAN 技术认证。 一、背景 1. 技术族谱1 IEEE 802 家族由一系列局域网标准组成，主要对 OSI 参考模型的最下面两层作出规范，涵盖了物理层和数据链路层组件。IEEE 802.11 是无线局域网标准，提供了物理层和 MAC 的规范。IEEE 802.11 与以太网有较深的渊源，被称为“无线以太网”，在配置 IEEE 802.11 网络时，不需要对传统的以太网做很多调整便可以将服务扩展至无线网络中，为网络设备带来了可移动性。 下图是部分 IEEE 802 家族的成员，可以看到家族成员之间的关系及其在...","categories": ["技术"],
+        "tags": ["网络","WLAN"],
+        "url": "https://www.lnki.me/2018/09/wlan-overview/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
         "title": "常见协议之 ARP 与 DHCP",
         "excerpt":"一、ARP ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。 发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。 ARP 地址解析过程 除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的...","categories": ["技术"],
         "tags": ["网络"],

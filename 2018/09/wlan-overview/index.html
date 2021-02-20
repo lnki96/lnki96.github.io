@@ -9,8 +9,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Android 系统架构 - Lnki’s Home · 网上冲浪日志</title>
-<meta name="description" content="本文所述 Android 架构，是指 Android 系统内部的体系架构，相对于应用开发角度的 Android 平台架构，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。">
+<!-- begin _includes/seo.html --><title>IEEE 802.11 概览 - Lnki’s Home · 网上冲浪日志</title>
+<meta name="description" content="关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：">
 
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
@@ -32,11 +32,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:site_name" content="Lnki's Home · 网上冲浪日志">
-<meta property="og:title" content="Android 系统架构">
-<meta property="og:url" content="https://www.lnki.me/2018/09/android-arch/">
+<meta property="og:title" content="IEEE 802.11 概览">
+<meta property="og:url" content="https://www.lnki.me/2018/09/wlan-overview/">
 
 
-  <meta property="og:description" content="本文所述 Android 架构，是指 Android 系统内部的体系架构，相对于应用开发角度的 Android 平台架构，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。">
+  <meta property="og:description" content="关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：">
 
 
 
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2018-09-05T00:00:00+08:00">
+  <meta property="article:published_time" content="2018-09-11T00:00:00+08:00">
 
 
 
@@ -57,7 +57,7 @@
   
 
 
-<link rel="canonical" href="https://www.lnki.me/2018/09/android-arch/">
+<link rel="canonical" href="https://www.lnki.me/2018/09/wlan-overview/">
 
 
 
@@ -207,7 +207,7 @@
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
-          Android 系统架构
+          IEEE 802.11 概览
 
         
       </h1>
@@ -227,7 +227,7 @@
       
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2018-09-05T00:00:00+08:00">2018 年 9 月 5 日</time>
+        <time datetime="2018-09-11T00:00:00+08:00">2018 年 9 月 11 日</time>
       </span>
     
 
@@ -269,7 +269,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          阅读时间约 4 分钟
+          阅读时间约 10 分钟
         
       </span>
     
@@ -411,9 +411,9 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Android 系统架构">
-    <meta itemprop="description" content="本文所述 Android 架构，是指 Android 系统内部的体系架构，相对于应用开发角度的 Android 平台架构，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。">
-    <meta itemprop="datePublished" content="2018-09-05T00:00:00+08:00">
+    <meta itemprop="headline" content="IEEE 802.11 概览">
+    <meta itemprop="description" content="关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：">
+    <meta itemprop="datePublished" content="2018-09-11T00:00:00+08:00">
     
 
     <div class="page__inner-wrap">
@@ -427,116 +427,315 @@
 <i class="fas fa-file-alt"></i> 目录</h4></header>
               <ul class="toc__menu">
   <li>
-<a href="#%E4%B8%80%E6%9E%B6%E6%9E%84">一、架构</a>
+<a href="#%E4%B8%80%E8%83%8C%E6%99%AF">一、背景</a>
     <ul>
-      <li><a href="#1-%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6%E5%B1%82">1. 应用框架层</a></li>
-      <li><a href="#2-binder-ipc-%E5%B1%82">2. Binder IPC 层</a></li>
-      <li><a href="#3-%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%E5%B1%82">3. 系统服务层</a></li>
-      <li><a href="#4-%E7%A1%AC%E4%BB%B6%E6%8A%BD%E8%B1%A1%E5%B1%82hal">4. 硬件抽象层（HAL）</a></li>
-      <li><a href="#5-linux-%E5%86%85%E6%A0%B8%E5%B1%82">5. Linux 内核层</a></li>
+      <li><a href="#1-%E6%8A%80%E6%9C%AF%E6%97%8F%E8%B0%B1">1. 技术族谱</a></li>
+      <li>
+<a href="#2-%E6%9C%89%E5%85%B3%E7%BB%84%E7%BB%87">2. 有关组织</a>
+        <ul>
+          <li><a href="#ieee-institute-of-electrical-and-electronics-engineers">IEEE (Institute of Electrical and Electronics Engineers)</a></li>
+          <li><a href="#wi-fi-alliance">Wi-Fi Alliance</a></li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li>
-<a href="#%E4%BA%8C%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6">二、运行机制</a>
+<a href="#%E4%BA%8C%E4%B8%80%E4%BA%9B%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E6%A6%82%E5%BF%B5">二、一些物理层的概念</a>
     <ul>
-      <li><a href="#1-%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6">1. 应用框架</a></li>
-      <li><a href="#2-jni">2. JNI</a></li>
-      <li><a href="#3-native-%E6%A1%86%E6%9E%B6">3. Native 框架</a></li>
-      <li><a href="#4-binder-ipc">4. Binder IPC</a></li>
-      <li><a href="#5-media-%E6%9C%8D%E5%8A%A1">5. Media 服务</a></li>
-      <li><a href="#6-hal">6. HAL</a></li>
-      <li><a href="#7-%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F">7. 内核驱动程序</a></li>
+      <li><a href="#1-%E9%A2%91%E6%AE%B5%E5%92%8C%E4%BF%A1%E9%81%93">1. 频段和信道</a></li>
+      <li><a href="#2-%E8%B0%83%E5%88%B6%E6%96%B9%E5%BC%8F">2. 调制方式</a></li>
+      <li><a href="#3-mimo">3. MIMO</a></li>
     </ul>
   </li>
-  <li><a href="#%E4%B8%89%E6%80%BB%E7%BB%93">三、总结</a></li>
+  <li>
+<a href="#%E4%B8%89wlan-%E7%BD%91%E7%BB%9C%E7%9A%84%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F">三、WLAN 网络的组织方式</a>
+    <ul>
+      <li><a href="#1-wlan-%E7%BD%91%E7%BB%9C%E7%BB%84%E6%88%90">1. WLAN 网络组成</a></li>
+      <li><a href="#2-wlan-%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B">2. WLAN 网络类型</a></li>
+      <li><a href="#3-wlan-%E7%BD%91%E7%BB%9C%E7%9A%84%E8%BF%90%E4%BD%9C%E6%96%B9%E5%BC%8F">3. WLAN 网络的运作方式</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
           </aside>
         
-        <p class="notice">本文所述 Android 架构，是指 Android 系统内部的体系<a href="https://source.android.com/devices/architecture" title="Android 架构">架构</a>，相对于应用开发角度的 Android <a href="https://developer.android.com/guide/platform" title="平台架构">平台架构</a>，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。</p>
+        <p>关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：</p>
 
-<h2 id="一架构">一、架构</h2>
+<dl>
+  <dt>WLAN</dt>
+  <dd>Wireless LAN，即无线局域网，一种局域网形式，物理介质为无线电波</dd>
+  <dt>IEEE 802.11</dt>
+  <dd>由 IEEE 制定的无线网络标准，a/b/g/n/ac 是该标准的几个迭代版本，IEEE 802.11 是现今 WLAN 的通用标准</dd>
+  <dt>Wi-Fi</dt>
+  <dd>一种基于 IEEE 802.11 标准的技术实现，是现今 WLAN 最常采用的技术，它也是 Wi-Fi 联盟的商用标志，用于产品的 WLAN 技术认证。</dd>
+</dl>
 
-<p>先看看来自官方的架构图：</p>
+<h2 id="一背景">一、背景</h2>
 
-<figure class="">
-  
-  <img src="/contents/posts/ape_fwk_all.webp" alt="Android 架构图">
-  <figcaption>
-      Android 架构
+<h3 id="1-技术族谱">1. 技术族谱<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>
+</h3>
 
-    </figcaption></figure>
+<p>IEEE 802 家族由一系列局域网标准组成，主要对 OSI 参考模型的最下面两层作出规范，涵盖了物理层和数据链路层组件。IEEE 802.11 是无线局域网标准，提供了物理层和 MAC 的规范。IEEE 802.11 与以太网有较深的渊源，被称为“无线以太网”，在配置 IEEE 802.11 网络时，不需要对传统的以太网做很多调整便可以将服务扩展至无线网络中，为网络设备带来了可移动性。</p>
 
-<p>可以看到，Android 系统分为五层，自上而下依次为：</p>
-
-<h3 id="1-应用框架层">1. 应用框架层</h3>
-
-<p>应用框架层中的 API 主要用于应用开发，而从系统开发角度，这些 API 都是底层 HAL 接口的映射，可以理解为 Android 系统和应用之间的边界。</p>
-
-<h3 id="2-binder-ipc-层">2. Binder IPC 层</h3>
-
-<p>Binder Inter-Process Communication（IPC），基于 Binder 的进程间通信机制，允许应用框架层跨越进程边界并调用 Android 系统服务层代码，实现框架 API 与 Android 系统服务之间的交互。这些通信过程对于应用开发者是透明的。</p>
-
-<h3 id="3-系统服务层">3. 系统服务层</h3>
-
-<p>系统服务是负责不同功能的模块化组件，例如窗口管理器、通知管理器、WLAN 管理器等等，应用框架 API 通过与系统服务通信来访问系统功能和底层硬件。Android 包含两组服务：“系统”（比如窗口管理器、通知管理器等服务）和“媒体”（与播放、录制媒体相关的服务）。</p>
-
-<h3 id="4-硬件抽象层hal">4. 硬件抽象层（HAL）</h3>
-
-<p>Hardware Abstraction Layer（HAL），硬件抽象层，定义标准接口供硬件开发者实现，硬件开发者可以通过这些接口方便地实现特定功能，而不用担心对系统上层造成影响，系统服务则可以通过访问硬件抽象层，忽略更低级别的驱动实现。除了标准接口，Android 也允许系统开发者自定义 HAL 接口，便于实现定制功能。HAL 的实现会被封装成模块，通常编译为 <code class="language-plaintext highlighter-rouge">.so</code> 文件，并由 Android 系统适时加载。</p>
-
-<p>从 Android 8.0 开始，引入了 HIDL，HAL 的运行方式也分为了两种：绑定式和直通式，Android 框架和系统服务通过 Binder IPC 机制与绑定式 HAL 通信，直通式则是在系统服务的同一进程下直接调用 HAL。绝大多数 HAL 是绑定式。</p>
-
-<h3 id="5-linux-内核层">5. Linux 内核层</h3>
-
-<p>开发设备驱动程序类似于开发典型的 Linux 设备驱动程序。除了驱动程序，Android 使用的 Linux 内核还包含一些特殊的补充功能，例如低内存终止、唤醒锁定、Binder IPC 驱动等等，以及对移动嵌入式平台来说非常重要的其他功能，如 wpa_supplicant、netd 等等。这些补充功能主要用于增强系统功能，不会影响驱动程序开发。</p>
-
-<h2 id="二运行机制">二、运行机制</h2>
-
-<p>上面静态地展示了 Android 的系统架构，只是抽象地了解了其大体结构和所扮演的角色。为更具体地理解 Android 运行机制，下面以 <a href="https://source.android.com/devices/audio">Audio 模块</a>为例，动态地看一看 Android 运行时的调用过程：</p>
+<p>下图是部分 IEEE 802 家族的成员，可以看到家族成员之间的关系及其在 OSI 模型中的角色定位：</p>
 
 <figure class="">
   
-  <img src="/contents/posts/ape_fwk_audio.webp" alt="Android Audio 架构图">
+  <img src="/contents/posts/ieee802-family.webp" alt="IEEE 802 家族图">
   <figcaption>
-      Android Audio 架构
+      IEEE 802 家族
 
     </figcaption></figure>
 
-<p>当某个应用访问 Audio 模块时，自上而下的调用过程如下：</p>
+<p>IEEE 802.11 涵盖了 OSI 模型的物理层和数据链路层，将物理层进一步细分为 PLCP 和 PMD 两个子层，PLCP（Physical Layer Convergence Procedure）负责将 MAC 映射到传输媒介，PMD（Physical Medium Dependent）负责帧的传送。分层结构如下图：</p>
 
-<h3 id="1-应用框架">1. 应用框架</h3>
+<figure class="">
+  
+  <img src="/contents/posts/ieee80211-phy-mac.webp" alt="IEEE 802.11 PHY 组件图">
+  <figcaption>
+      IEEE 802.11 物理层结构
 
-<p>应用框架包含应用的代码，该代码可使用 <code class="language-plaintext highlighter-rouge">android.media</code> API 与 Audio 硬件进行交互。在内部，此代码会调用相应的 JNI 粘合类，以访问与 Audio 硬件交互的 native 代码。应用可以直接调用的框架代码位于 <code class="language-plaintext highlighter-rouge">frameworks/base/media/java</code>。</p>
+    </figcaption></figure>
 
-<h3 id="2-jni">2. JNI</h3>
+<p>目前 IEEE 802.11 已被淘汰，由 IEEE 802.11a/b/g/n/ac 等修订标准替代，各修订版本主要是针对物理层做优化。下表是各版本的特性及差异：</p>
 
-<p>与 <code class="language-plaintext highlighter-rouge">android.media</code> 关联的 JNI 代码可调用较低级别的原生代码，以访问 Audio 硬件。JNI 代码位于 <code class="language-plaintext highlighter-rouge">frameworks/base/core/jni</code> 和 <code class="language-plaintext highlighter-rouge">frameworks/base/media/jni</code>。</p>
+<div class="table-wrapper">
+  <table>
+<caption>
+        <a href="https://zh.wikipedia.org/wiki/IEEE_802.11ac">IEEE 802.11 版本比较</a>
 
-<h3 id="3-native-框架">3. Native 框架</h3>
+    </caption>
 
-<p>Native 框架提供相当于 <code class="language-plaintext highlighter-rouge">android.media</code> 包的 native 代码包，调用 Binder IPC 代理以访问 Media 服务器的特定于音频的服务。原生框架代码位于 <code class="language-plaintext highlighter-rouge">frameworks/av/media/libmedia</code>。</p>
+  <thead>
+    <tr>
+      <th>标准</th>
+      <th>频段</th>
+      <th>最大带宽</th>
+      <th>调制方式</th>
+      <th>最大传输速率</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>802.11</td>
+      <td>2.4 GHz</td>
+      <td>20 MHz</td>
+      <td>FHSS<br>DSSS</td>
+      <td>2 Mbps</td>
+    </tr>
+    <tr>
+      <td>802.11a</td>
+      <td>5 GHz</td>
+      <td>20 MHz</td>
+      <td>OFDM</td>
+      <td>54 Mbps</td>
+    </tr>
+    <tr>
+      <td>802.11b</td>
+      <td>2.4 GHz</td>
+      <td>20 MHz</td>
+      <td>HR-DSSS</td>
+      <td>11 Mbps</td>
+    </tr>
+    <tr>
+      <td>802.11g</td>
+      <td>2.4 GHz</td>
+      <td>20 MHz</td>
+      <td>OFDM</td>
+      <td>54 Mbps</td>
+    </tr>
+    <tr>
+      <td>802.11n</td>
+      <td>2.4 GHz<br>5 GHz</td>
+      <td>40 MHz</td>
+      <td>MIMO-OFDM</td>
+      <td>150 Mbps (40 MHz 1x1)<br>600 Mbps (40MHz 4x4)</td>
+    </tr>
+    <tr>
+      <td>802.11ac Wave 1</td>
+      <td>5 GHz</td>
+      <td>80 MHz</td>
+      <td>MIMO-OFDM</td>
+      <td>433.3 Mbps (80 MHz 1x1)<br>1.3 Gbps (80 MHz 3x3)</td>
+    </tr>
+    <tr>
+      <td>802.11ac Wave 2</td>
+      <td>5 GHz</td>
+      <td>160 MHz</td>
+      <td>MIMO-OFDM</td>
+      <td>866.7 Mbps (160 MHz 1x1)<br>6.9 Gbps (160 MHz 8x8)</td>
+    </tr>
+  </tbody>
+</table>
 
-<h3 id="4-binder-ipc">4. Binder IPC</h3>
+</div>
 
-<p>Binder IPC 代理用于促进跨越进程边界的通信。代理代码位于 <code class="language-plaintext highlighter-rouge">frameworks/av/media/libmedia</code>，文件以字母“I”开头。</p>
+<p>IEEE 802.11ac 有两个细分版本，Wave 1 于 2014 年发布，支持 80 MHz 带宽和 3x3 SU-MIMO，Wave 2 于2016 年发布，增加了对 160 MHz 带宽和 8x8 MU-MIMO 的支持，提供更高吞吐量。</p>
 
-<h3 id="5-media-服务">5. Media 服务</h3>
+<h3 id="2-有关组织">2. 有关组织</h3>
 
-<p>Media 服务包含 Audio 服务，这些 Audio 服务是实际与 HAL 实现进行交互的代码。Media 服务位于 <code class="language-plaintext highlighter-rouge">frameworks/av/services/audioflinger</code>。</p>
+<h4 id="ieee-institute-of-electrical-and-electronics-engineers">IEEE (Institute of Electrical and Electronics Engineers)</h4>
 
-<h3 id="6-hal">6. HAL</h3>
+<p>电气电子工程师协会，是一个非营利性的电子技术和信息工程师的协会，被国际标准化组织授权为可以指定标准的组织，设有众多标准委员会，其中最为著名的是IEEE 802委员会，致力于局域网标准的制定。</p>
 
-<p>HAL 定义了由 Audio 服务调用的标准接口，必须正确实现这些接口以确保 Audio 硬件功能正常运行。Audio HAL 接口位于 <code class="language-plaintext highlighter-rouge">hardware/libhardware/include/hardware</code>。</p>
+<h4 id="wi-fi-alliance">Wi-Fi Alliance</h4>
 
-<h3 id="7-内核驱动程序">7. 内核驱动程序</h3>
+<p>Wi-Fi 联盟，是由行业众多公司组建的商业联盟，拥有 Wi-Fi 商标，主要负责建立和执行无线网络标准、优化互操作性与兼容性，并推动无线网络技术，主要业务是无限相容性认证，通过认证的需要符合 IEEE 802.11 无线标准、WPA/WPA2 安全标准、EAP 认证标准。</p>
 
-<p>Audio 驱动程序分别与硬件和 HAL 实现进行交互，最终完成从应用对 Audio 硬件的访问。可以使用高级 Linux 音频架构（ALSA）、开放声音系统（OSS）或自定义驱动程序（HAL 与驱动程序无关）。</p>
+<h2 id="二一些物理层的概念">二、一些物理层的概念</h2>
 
-<h2 id="三总结">三、总结</h2>
+<h3 id="1-频段和信道">1. 频段和信道</h3>
 
-<p>经过对 Android 系统内部架构的梳理，可以看到，这种架构就类似于网络中常见的 C/S 架构，系统服务是服务器，应用程序是客户端，Binder IPC 机制则是承载两者交互的网络，Android 把每个系统功能拆分成不同的系统服务，它们管理相应的系统资源，通过 Binder IPC 机制，使每个应用有条不紊地向系统服务请求资源。</p>
+<p>802.11 工作组为 WLAN 划分了 4 个独立的频段：2.4 GHz、3.6 GHz、4.9 GHz 和 5.8 GHz，每个频段又划分为若干信道。对于这些频段和信道的使用，各个国家制定的政策有所不同，内容包括最大发射功率、调制方式等。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/1920px-2.4_GHz_Wi-Fi_channels_(802.11b,g_WLAN).svg.webp" alt="WLAN 2.4 GHz 信道图">
+  <figcaption>
+      <a href="https://zh.wikipedia.org/wiki/WLAN%E4%BF%A1%E9%81%93%E5%88%97%E8%A1%A8">WLAN 2.4 GHz 信道</a>
+
+    </figcaption></figure>
+
+<p>WLAN 在 2.4 GHz 频段可以使用的具体频率是 2.412 GHz ~ 2.472 GHz（信道中心频率），总共是 80 MHz 的带宽，这个频段划分出 13 个相互重叠的信道，在 OFDM 调制中，每个信道的带宽是 20 MHz（DSSS调制是 22 MHz），换言之，2.4 GHz频段工作时只有三个互不干扰的信道，分别为 1、6、11。</p>
+
+<p>5 GHz 频段的频率是 4.915GHz ~ 5.825GHz，一共划分了 32 个信道，每个信道带宽有 10 MHz、20 MHz、40 MHz、80 MHz 和 160 MHz 不等，有 22 个互不干扰的信道。</p>
+
+<h3 id="2-调制方式">2. 调制方式</h3>
+
+<p>802.11 常用调制方式有 DSSS 和 OFDM。</p>
+
+<p>DSSS（直接序列展频）是利用 10 个以上的 chip 来表示原来的 0 和 1，使原本高频率、窄频的信号转换为低功率的宽频信号，完成扩频，接收方再以同样的规则解扩，从各 chip 中恢复原信号。</p>
+
+<p>OFDM（正交频分复用）将一整段频段分割成数个子载波，而且让每个子载波相互正交，使得他们在频谱上并不互相重叠，可以降低干扰，传输端将信号摆置在频域上，透过反傅里叶转换转换至时域，增加循环前缀后传送出去，接收端去除信号循环前缀，再将时域信号转换回频域，解出原信号。</p>
+
+<h3 id="3-mimo">3. MIMO</h3>
+
+<p>SISO 和 MIMO 是 WLAN 天线发送和接收信号的两种方式。SISO (Single Input Single Output) 即单输入单输出，顾名思义是通信时一根发射天线对应一根接收天线；MIMO (Multiple Input Multiple Output) 即多输入多输出，表示多根发射天线和多跟接收天线的通信；除此之外还有 SIMO 和 MISO 等。早期的 802.11 采用 SISO，传输速率较慢，MIMO 通过增加天线数量大幅提高传输速率。</p>
+
+<p>MIMO 传输如下图，假设有 <code class="language-plaintext highlighter-rouge">m</code> 根发射天线，<code class="language-plaintext highlighter-rouge">n</code> 根接收天线，那么可以得到 <code class="language-plaintext highlighter-rouge">m × n</code> 的传输矩阵，即可以产生 <code class="language-plaintext highlighter-rouge">m × n</code> 个信道。理论上信道容量和天线数量成正比。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/Structure-of-multiple-input-multiple-output-MIMO-systems-with-N-transmit-TX-and-L.webp" alt="MIMO 示意图">
+  <figcaption>
+      MIMO 传输示意
+
+    </figcaption></figure>
+
+<p>MIMO 工作时，发射端将高速率的数据流拆分为几个低速率的子数据流，这些子数据流在不同天线上以相同频段发射，接收端将同时来自多根天线的信号以一定方式复原为原数据流。发射端使用多根天线平行发射子数据流，这种方式被称为空分复用，可以成倍提高信道容量；同时接收端多根天线接收到相同的信号，这被称为空间分集，提升信道的可靠性。此外MIMO还有波束成形、预编码等技术，它们并不互斥，可以互相配合应用。</p>
+
+<p>802.11ac Wave 2 引入了 MU-MIMO，即多用户多输出多输入，与单用户不同的是，发射端可以同时与多个接收端通信，各接收端互不干扰。</p>
+
+<h2 id="三wlan-网络的组织方式">三、WLAN 网络的组织方式<sup id="fnref:1:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>
+</h2>
+
+<h3 id="1-wlan-网络组成">1. WLAN 网络组成</h3>
+
+<p>一个 WLAN 网络中，有工作站（STA）、接入点（AP）、基本服务集（BSS）、扩展服务集（ESS）、骨干网络等成员。如下图：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-ess.webp" alt="ESS 示意图">
+  <figcaption>
+      WLAN 组网示意
+
+    </figcaption></figure>
+
+<p>AP 是 WLAN 存在的基础，STA 通过与 AP 关联加入 WLAN。BSS 是 802.11 网络组网的基本单元，一个 BSS 对应于一个 AP，它的服务范围也就是 AP 的信号覆盖范围。一个 AP 的信号覆盖范围有限，802.11 允许将多个 BSS 串联为一个 ESS，隶属于同一个 ESS 的 STA 可以相互通信。ESS 中各 BSS 连接至同一个骨干网络，为了在 ESS 中实现跨 BSS 通信，相应的 AP 之间要能够在骨干网络中建立 OSI 第二层的连接，骨干网络通常是以太网。</p>
+
+<p>在安全方面，802.11i 提供了 WLAN 安全机制，使用 802.11i 所定义和改良的身份验证协议和机密性协议的网络，被称为 RSN（Robust Security Network），其中的连接则为RSNA（RSN Associations）。</p>
+
+<h3 id="2-wlan-网络类型">2. WLAN 网络类型</h3>
+
+<p>BSS 根据组网结构不同分为两类，一类是集中于 AP 的基础结构型网络（BSS），一种是无 AP 的独立型网络（IBSS）。</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/80211-bss-type.webp" alt="BSS 类型图">
+  <figcaption>
+      独立型与基础结构型网络的基本服务集
+
+    </figcaption></figure>
+
+<p>基础结构性网络（Infrastructure BSS）是有 AP 参与的无线网络。AP 是基础结构型网络的关键，它向外界周期性地广播 Beacon 帧，宣告网络的存在，STA 在连入基础结构型网络时，必须先与 AP 建立关联。AP 负责处理网络中所有通信，STA1 与 STA2 通信时，发往 STA2 的数据必须从 STA1 发至 AP，然后由 AP 转发至 STA2。基础结构型网络服务集被界定在 AP 的传输范围之内。</p>
+
+<p>独立型网络（Independent BSS，简称 IBSS）是没有 AP 参与的无线网络。在 IBSS 中，STA 之间可以直接通信。IBSS 由两个或更多的 STA 组成，服务集覆盖范围不固定，由各 STA 轮流广播 Beacon 帧来宣告网络的存在。</p>
+
+<h3 id="3-wlan-网络的运作方式">3. WLAN 网络的运作方式</h3>
+
+<p>与以太网相比，WLAN 为设备提供了可移动性，为了让网络能够正确追踪移动节点及帧传递，802.11 定义了 9 种服务，见下表，其中前 3 种用来传送数据，其余 6 种均属管理操作。</p>
+
+<div class="table-wrapper">
+  <table>
+<caption>
+        WLAN 服务
+
+    </caption>
+
+  <thead>
+    <tr>
+      <th>服务</th>
+      <th>用途</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>分布式</td>
+      <td>传递帧时，可使用此服务来决定目的地在网络上的地址</td>
+    </tr>
+    <tr>
+      <td>整合</td>
+      <td>用来将帧传递至无线网络以外的 IEEE 802 LAN</td>
+    </tr>
+    <tr>
+      <td>MSDU 传送</td>
+      <td>用来传递数据至接收端</td>
+    </tr>
+    <tr>
+      <td>关联</td>
+      <td>用来建立 AP（作为网关使用）于特定移动式工作站间的关联</td>
+    </tr>
+    <tr>
+      <td>重新关联</td>
+      <td>用来变更 AP（作为网关使用）于特定移动式工作站间的关联</td>
+    </tr>
+    <tr>
+      <td>取消关联</td>
+      <td>用来从网络移除无线工作站</td>
+    </tr>
+    <tr>
+      <td>身份验证</td>
+      <td>建立关联之前用来进行身份验证（利用 MAC 地址）</td>
+    </tr>
+    <tr>
+      <td>解除身份验证</td>
+      <td>用来终结一段身份验证关系，其副作用是终止当前关联</td>
+    </tr>
+    <tr>
+      <td>机密性</td>
+      <td>用来防止窃听</td>
+    </tr>
+    <tr>
+      <td>传输功率控制（TPC）</td>
+      <td>频谱管理，降低工作站传输功率以减少干扰</td>
+    </tr>
+    <tr>
+      <td>动态频率选择（DFS）</td>
+      <td>频谱管理，避免在 5 GHz 频段干扰雷达操作</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Gast, M. S. 802.11® 无线网络权威指南[M]. 第 2 版. O’Reilly Taiwan 公司. 南京 - 东南大学出版社, 2007.12: 24-37 <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a> <a href="#fnref:1:1" class="reversefootnote" role="doc-backlink">↩<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
 
         
       </section>
@@ -558,7 +757,11 @@
     
       
       
-      <a href="/tags/#android" class="page__taxonomy-item" rel="tag">Android</a>
+      <a href="/tags/#wlan" class="page__taxonomy-item" rel="tag">WLAN</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#%E7%BD%91%E7%BB%9C" class="page__taxonomy-item" rel="tag">网络</a>
     
     </span>
   </p>
@@ -587,7 +790,7 @@
 
           
             
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间：</strong> <time datetime="2018-09-05T00:00:00+08:00">2018 年 9 月 5 日</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间：</strong> <time datetime="2018-09-11T00:00:00+08:00">2018 年 9 月 11 日</time></p>
 
 
           
@@ -599,10 +802,11 @@
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">上一页</a>
-    
-    
       <a href="/2018/09/network-model/" class="pagination--pager" title="计算机网络模型
+">上一页</a>
+    
+    
+      <a href="/2018/09/arp-dhcp/" class="pagination--pager" title="常见协议之 ARP 与 DHCP
 ">下一页</a>
     
   </nav>
@@ -649,7 +853,7 @@
                 <input type="url" id="comment-form-url" name="fields[url]" tabindex="4">
               </div>
               <div class="form-group hidden" style="display: none;">
-                <input type="hidden" name="options[slug]" value="android-arch">
+                <input type="hidden" name="options[slug]" value="wlan-overview">
                 <label for="comment-form-location">Not used. Leave blank if you are a human.</label>
                 <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off">
                 <input type="hidden" name="options[reCaptcha][siteKey]" value="6Lfi0TkaAAAAAL7-p7VJ15DjbJnVpRADclZZn5wn">
@@ -786,93 +990,6 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/2018/09/wlan-overview/" rel="permalink">IEEE 802.11 概览
-</a>
-      
-    </h2>
-    
-
-
-
-
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        <time datetime="2018-09-11T00:00:00+08:00">2018 年 9 月 11 日</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          阅读时间约 11 分钟
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">关于无线网络，我们常提到 WLAN、Wi-Fi、IEEE 802.11 a/b/g/n/ac 等名词，它们似乎都可以指无线网络，这里先了解它们的概念和区别：
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/teaser.webp" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
         <a href="/2018/09/network-model/" rel="permalink">计算机网络模型
 </a>
       
@@ -942,6 +1059,93 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">一、OSI 七层模型
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/android-arch/" rel="permalink">Android 系统架构
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-05T00:00:00+08:00">2018 年 9 月 5 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 4 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">本文所述 Android 架构，是指 Android 系统内部的体系架构，相对于应用开发角度的 Android 平台架构，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。
 </p>
   </article>
 </div>
