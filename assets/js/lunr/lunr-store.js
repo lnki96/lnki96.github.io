@@ -65,6 +65,12 @@ var store = [{
         "url": "https://www.lnki.me/2018/09/wlan-sec-overview/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       },{
+        "title": "wpa_supplicant 连接实验",
+        "excerpt":"此次实验是在 Android 设备中进行的，这里做个记录。 首先在 Android 设置中关闭 WLAN 以及 WLAN 扫描，然后用 lsmod 查看 WLAN 驱动状态，如果没有，就用 insmod 安装，驱动路径为 /vendor/lib/modules/qca_cld3_wlan.ko。 lsmod 查看 wlan 驱动 启动并在后台运行 wpa_supplicant 服务端，命令如下： /vendor/bin/hw/wpa_supplicant -i wlan0 -D nl80211 -c /vendor/etc/wifi/wpa_supplicant.conf -I /vendor/etc/wifi/wpa_supplicant_overlay.conf -O /data/vendor/wifi/wpa/sockets 运行 wpa_supplicant 服务 在新终端中打开 wpa_cli（wpa_supplicant 客户端）并连接 wpa_supplicant 服务，命令如下： wpa_cli -i wlan0 -p /data/vendor/wifi/wpa/sockets/ 运行 wpa_cli...","categories": ["技术","杂记"],
+        "tags": ["wpa_supplicant","WLAN","Android"],
+        "url": "https://www.lnki.me/2018/09/wpa-supplicant/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
         "title": "Android 中的状态机实现",
         "excerpt":"状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。 一、架构 StateMachine 实现了 Android 状态机的基本逻辑，只允许 Android 系统内部调用，它的内部结构如图： StateMachine 架构示意 StateMachine 所实现的状态机是一种分层状态机（Hierarchical State Machine，HSM），分层管理状态和处理消息。HSM 维护一个层次结构，也就是状态树，每一层都有一个或多个状态，这些状态派生自 State，StateMachine 收到的消息会被传递至这些状态，派生一种状态需要实现其 processMessage 方法来完成该状态的消息处理逻辑。 StateMachine 所实现的状态机启动时，会构造一个状态树，固定每种状态及其父状态、子状态的关系，然后将当前状态设置为指定的初始状态，当前状态相当于一个指针，它在这棵状态树上游走。以下面的状态机层次结构为例，设 mS5 为初始状态，构造完成时，当前状态的转移路径为从 mS5 的最远父状态也就是 mP0 开始，依次经过 mP1、mS1，直到 mS5。 mP0 / \\ mP1 mS0 / \\ mS2 mS1 / \\ \\ mS3 mS4 mS5 完成启动后，状态机开始处理消息。当状态机收到一个消息时，首先转给当前状态 mS5，由其 processMessage 方法处理。若子状态不能处理，消息将被转给其父状态，以此类推，状态机沿着状态树逐级上溯，直到找到一个可以处理该消息的状态，比如一条只有 mP1 才能处理的消息，会经过...","categories": ["技术"],
         "tags": ["Android"],

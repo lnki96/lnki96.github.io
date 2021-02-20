@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.lnki.me/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.lnki.me/" rel="alternate" type="text/html" /><updated>2021-02-20T20:53:09+08:00</updated><id>https://www.lnki.me/feed.xml</id><title type="html">Lnki’s Home · 网上冲浪日志</title><subtitle>这里是 Lnki 的小站，我在这里分享知识、记录日常。</subtitle><author><name>Lnki</name></author><entry><title type="html">常见协议之 ARP 与 DHCP</title><link href="https://www.lnki.me/2018/09/arp-dhcp/" rel="alternate" type="text/html" title="常见协议之 ARP 与 DHCP" /><published>2018-09-30T00:00:00+08:00</published><updated>2018-09-30T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/arp-dhcp</id><content type="html" xml:base="https://www.lnki.me/2018/09/arp-dhcp/">&lt;h2 id=&quot;一arp&quot;&gt;一、ARP&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.lnki.me/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.lnki.me/" rel="alternate" type="text/html" /><updated>2021-02-20T21:07:14+08:00</updated><id>https://www.lnki.me/feed.xml</id><title type="html">Lnki’s Home · 网上冲浪日志</title><subtitle>这里是 Lnki 的小站，我在这里分享知识、记录日常。</subtitle><author><name>Lnki</name></author><entry><title type="html">常见协议之 ARP 与 DHCP</title><link href="https://www.lnki.me/2018/09/arp-dhcp/" rel="alternate" type="text/html" title="常见协议之 ARP 与 DHCP" /><published>2018-09-30T00:00:00+08:00</published><updated>2018-09-30T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/arp-dhcp</id><content type="html" xml:base="https://www.lnki.me/2018/09/arp-dhcp/">&lt;h2 id=&quot;一arp&quot;&gt;一、ARP&lt;/h2&gt;
 
 &lt;p&gt;ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。&lt;/p&gt;
 
@@ -543,7 +543,130 @@ mS3   mS4   mS5
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;transitionToHaltingState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;mSmHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;transitionTo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mSmHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mHaltingState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Lnki</name></author><category term="技术" /><category term="Android" /><summary type="html">状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。</summary></entry><entry><title type="html">WLAN 中的安全机制概述</title><link href="https://www.lnki.me/2018/09/wlan-sec-overview/" rel="alternate" type="text/html" title="WLAN 中的安全机制概述" /><published>2018-09-15T00:00:00+08:00</published><updated>2018-09-15T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/wlan-sec-overview</id><content type="html" xml:base="https://www.lnki.me/2018/09/wlan-sec-overview/">&lt;p&gt;WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Lnki</name></author><category term="技术" /><category term="Android" /><summary type="html">状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。</summary></entry><entry><title type="html">wpa_supplicant 连接实验</title><link href="https://www.lnki.me/2018/09/wpa-supplicant/" rel="alternate" type="text/html" title="wpa_supplicant 连接实验" /><published>2018-09-17T00:00:00+08:00</published><updated>2018-09-17T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/wpa-supplicant</id><content type="html" xml:base="https://www.lnki.me/2018/09/wpa-supplicant/">&lt;p class=&quot;notice&quot;&gt;此次实验是在 Android 设备中进行的，这里做个记录。&lt;/p&gt;
+
+&lt;p&gt;首先在 Android 设置中关闭 WLAN 以及 WLAN 扫描，然后用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lsmod&lt;/code&gt; 查看 WLAN 驱动状态，如果没有，就用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insmod&lt;/code&gt; 安装，驱动路径为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/vendor/lib/modules/qca_cld3_wlan.ko&lt;/code&gt;。&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/lsmod_wlan.webp&quot; alt=&quot;lsmod 结果图&quot; /&gt;
+  &lt;figcaption&gt;
+      lsmod 查看 wlan 驱动
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;启动并在后台运行 wpa_supplicant 服务端，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/vendor/bin/hw/wpa_supplicant -i wlan0 -D nl80211 -c /vendor/etc/wifi/wpa_supplicant.conf -I /vendor/etc/wifi/wpa_supplicant_overlay.conf -O /data/vendor/wifi/wpa/sockets
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/start-wpa_supplicant.webp&quot; alt=&quot;wpa_supplicant 运行图&quot; /&gt;
+  &lt;figcaption&gt;
+      运行 wpa_supplicant 服务
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;在新终端中打开 wpa_cli（wpa_supplicant 客户端）并连接 wpa_supplicant 服务，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wpa_cli -i wlan0 -p /data/vendor/wifi/wpa/sockets/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/start-wpa_cli.webp&quot; alt=&quot;wpa_cli 运行图&quot; /&gt;
+  &lt;figcaption&gt;
+      运行 wpa_cli 并连接 wpa_supplicant 服务
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scan&lt;/code&gt; 命令发起 WLAN 扫描：&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+    &lt;a href=&quot;&quot; title=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/trigger-scan.webp&quot; alt=&quot;wpa_cli 扫描图&quot; /&gt;
+  
+    &lt;/a&gt;
+  &lt;figcaption&gt;
+      启动 WLAN 扫描
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scan_result&lt;/code&gt;命令查看扫描结果：&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/get-scan-results.webp&quot; alt=&quot;wpa_cli 扫描结果图&quot; /&gt;
+  &lt;figcaption&gt;
+      查看扫描结果
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;这里要连接 WLAN 的 SSID 为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vivo NEX S&lt;/code&gt;。先使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;add_network&lt;/code&gt; 添加一个网络：&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/add-network.webp&quot; alt=&quot;wpa_cli 添加网络图&quot; /&gt;
+  &lt;figcaption&gt;
+      添加一个网络
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;配置网络 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;，设置 SSID、密码和安全策略，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set_network 0 ssid &quot;vivo NEX S&quot;
+set_network 0 psk &quot;12345678&quot;
+set_network 0 key_mgmt WPA-PSK
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/set-network.webp&quot; alt=&quot;wpa_cli 配置网络图&quot; /&gt;
+  &lt;figcaption&gt;
+      设置网络参数
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;启用网络 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;，wpa_cli 会自动连接可用网络，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;enable_network 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/connect-network.webp&quot; alt=&quot;wpa_cli 连接网络&quot; /&gt;
+  &lt;figcaption&gt;
+      启用和连接网络
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;在新的终端中使用 dhcpcd 获取 IP 地址，直接运行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dhcpcd&lt;/code&gt; 命令：&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/dhcpcd-get-ip.webp&quot; alt=&quot;dhcpcd 配置 IP 地址图&quot; /&gt;
+  &lt;figcaption&gt;
+      通过 DHCP 配置 IP 地址
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;用 ping 来测试网络，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ping 192.168.43.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/ping-test-network.webp&quot; alt=&quot;PING 测试网络图&quot; /&gt;
+  &lt;figcaption&gt;
+      测试网络连通性
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;至此，wpa_supplicant 连接过程结束，成功连接 WLAN 并可以正常通信。&lt;/p&gt;</content><author><name>Lnki</name></author><category term="技术" /><category term="杂记" /><category term="wpa_supplicant" /><category term="WLAN" /><category term="Android" /><summary type="html">此次实验是在 Android 设备中进行的，这里做个记录。</summary></entry><entry><title type="html">WLAN 中的安全机制概述</title><link href="https://www.lnki.me/2018/09/wlan-sec-overview/" rel="alternate" type="text/html" title="WLAN 中的安全机制概述" /><published>2018-09-15T00:00:00+08:00</published><updated>2018-09-15T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/wlan-sec-overview</id><content type="html" xml:base="https://www.lnki.me/2018/09/wlan-sec-overview/">&lt;p&gt;WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。&lt;/p&gt;
 
 &lt;h2 id=&quot;一安全标准&quot;&gt;一、安全标准&lt;/h2&gt;
 
