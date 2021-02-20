@@ -1,4 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.lnki.me/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.lnki.me/" rel="alternate" type="text/html" /><updated>2021-02-20T19:48:51+08:00</updated><id>https://www.lnki.me/feed.xml</id><title type="html">Lnki’s Home · 网上冲浪日志</title><subtitle>这里是 Lnki 的小站，我在这里分享知识、记录日常。</subtitle><author><name>Lnki</name></author><entry><title type="html">Android 系统架构</title><link href="https://www.lnki.me/2018/09/android-arch/" rel="alternate" type="text/html" title="Android 系统架构" /><published>2018-09-05T00:00:00+08:00</published><updated>2018-09-05T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/android-arch</id><content type="html" xml:base="https://www.lnki.me/2018/09/android-arch/">&lt;p class=&quot;notice&quot;&gt;本文所述 Android 架构，是指 Android 系统内部的体系&lt;a href=&quot;https://source.android.com/devices/architecture&quot; title=&quot;Android 架构&quot;&gt;架构&lt;/a&gt;，相对于应用开发角度的 Android &lt;a href=&quot;https://developer.android.com/guide/platform&quot; title=&quot;平台架构&quot;&gt;平台架构&lt;/a&gt;，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.lnki.me/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.lnki.me/" rel="alternate" type="text/html" /><updated>2021-02-20T19:58:13+08:00</updated><id>https://www.lnki.me/feed.xml</id><title type="html">Lnki’s Home · 网上冲浪日志</title><subtitle>这里是 Lnki 的小站，我在这里分享知识、记录日常。</subtitle><author><name>Lnki</name></author><entry><title type="html">计算机网络模型</title><link href="https://www.lnki.me/2018/09/network-model/" rel="alternate" type="text/html" title="计算机网络模型" /><published>2018-09-08T00:00:00+08:00</published><updated>2018-09-08T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/network-model</id><content type="html" xml:base="https://www.lnki.me/2018/09/network-model/">&lt;h2 id=&quot;一osi-七层模型&quot;&gt;一、OSI 七层模型&lt;/h2&gt;
+
+&lt;p&gt;OSI（Open System Interconnection）模型是一种计算机网络标准框架，是一种全球各种计算平台和网络之间数据通信的完整解决方案。OSI 是理论上的网络标准，而实际上的工业标准是 TCP/IP 协议族，理解 OSI 有助于理解 TCP/IP。&lt;/p&gt;
+
+&lt;p&gt;OSI 是一种分组网络模型，定义了七层网络模型，每层的功能相互独立，通过定义一些协议来描述处理过程，这样的好处是上层的修改不影响下层的结构。OSI分层模型的核心思想是封装，上层的数据包对于下层协议而言就是一个黑箱，下层协议只处理本层信息，不关心上层数据包的内容。在通信过程中，下层协议对于上层协议是透明的，下层协议通过封装、编码、加密等方式承载上层协议的数据包。&lt;/p&gt;
+
+&lt;p&gt;发送时，信息从应用层开始向下逐层封装，最终物理层将信息转化成信号传播到介质中；接收时，首先物理层从介质传来的信号中获取信息，再向上逐层拆包，最终到达应用层。&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/osi-model.webp&quot; alt=&quot;OSI 网络模型封装过程示意图&quot; /&gt;
+  &lt;figcaption&gt;
+      OSI 模型结构及数据封装
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;1-物理层&quot;&gt;1. 物理层&lt;/h3&gt;
+
+&lt;p&gt;物理层的处理单元是 bit（比特），负责将信息编码成电流脉冲、电磁波等形式的信号并传播出去，同时从信号中解码信息生成原始 bit 码。它定义了 bit 和信号之间的转换方式，以及物理介质的光电、电气和机械特性。&lt;/p&gt;
+
+&lt;h3 id=&quot;2-数据链路层&quot;&gt;2. 数据链路层&lt;/h3&gt;
+
+&lt;p&gt;数据链路层的处理单元是帧（Frame），负责构建物理设备的逻辑链路，并将输入的数据转换为数据帧，同时负责检测和修正传输出现的错误。工作在该层的设备主要是交换机。&lt;/p&gt;
+
+&lt;p&gt;该层又被划分为两个子层，分别为介质访问控制（MAC）子层和逻辑链路控制（LLC）子层。&lt;/p&gt;
+
+&lt;p&gt;MAC 子层的主要功能包括数据帧的封装/卸装，帧的寻址和识别，帧的接收与发送，链路的管理，帧的差错控制等。MAC 子层的存在屏蔽了不同物理链路种类的差异性，解决了局域网共用信道出现冲突时的介质使用权分配。在传统局域网中，普遍使用的 MAC 标准是 IEEE 802.3，即通常所说的以太网（Ethernet），采用 CSMA/CD 的方式避免冲突；在无线网络中，MAC 标准为 IEEE 802.11。MAC 子层还采用多种方式提高传输效率，包括 TDM、FDM、WDM 和 CDMA。&lt;/p&gt;
+
+&lt;p&gt;LLC 子层向上层提供服务，包括传输可靠性保障和控制、数据包的分段与重组、数据包的顺序传输等，IEEE 802.2 定义了它的功能和服务，它提供了访问各种介质的方法。LLC 负责识别网络层协议，然后对它们进行封装。LLC 报头告诉数据链路层当帧被接收到时，应当对数据包做何处理。&lt;/p&gt;
+
+&lt;h3 id=&quot;3-网络层&quot;&gt;3. 网络层&lt;/h3&gt;
+
+&lt;p&gt;网络层的处理单元是包（Packet），提供点到点的数据传输服务，该层协议描述了在设备之间如何传输数据，即描述了如何确定数据包从发送方到接收方的路径，它依据独一的地址信息来为数据包提供路由；与此同时负责流量和拥塞控制，以防止网络资源耗尽。工作在该层的设备有路由器、防火墙等。&lt;/p&gt;
+
+&lt;p&gt;IP 是网络层的核心协议，负责将数据包从源地址发送到目的地址，它提供不可靠的传输服务，并由一些辅助协议提供拓展功能。ICMP 负责差错控制，IGMP 负责建立和维护组播成员关系，两者数据承载在 IP 数据包之上；ARP 负责根据 IP 地址解析当前网络的物理地址，RARP 则根据物理地址解析 IP 地址，两者数据直接承载在帧上。IP 实现了不同网络之间的通信，每个网络的边界称为网关，IP 还提供了子网划分和子网融合，提供灵活的网络管理功能。&lt;/p&gt;
+
+&lt;p&gt;网络层另一重要功能是路由，常见的路由协议由 RIP、OSPF 等等，这些协议负责建立和维护路由表，在转发 IP 数据包时，将目的地址和路由表逐条比对，然后从匹配的端口转发。&lt;/p&gt;
+
+&lt;h3 id=&quot;4-传输层&quot;&gt;4. 传输层&lt;/h3&gt;
+
+&lt;p&gt;传输层的处理单元是消息（Message），负责管理网络中端到端的消息传输，通过错误恢复和流量控制的机制为数据包传输提供可靠性和顺序性，同时提供了一种面向连接的数据包传输方式。&lt;/p&gt;
+
+&lt;p&gt;传输层最主要的两个协议是 TCP 和 UDP，提供端口到端口、进程到进程的数据传输服务。TCP 是面向连接的，提供的是可靠服务，因此没有广播功能，它通过三次握手、ACK 应答、重传等机制进行差错控制，以及通过慢启动、快速重传、滑动窗口等机制进行流量控制；UDP 提供不可靠服务，能进行广播和组播，它没有差错控制和流量控制机制，数据包结构简单，封装快速，适用于需要快速响应或流量较大的应用。&lt;/p&gt;
+
+&lt;h3 id=&quot;5-会话层&quot;&gt;5. 会话层&lt;/h3&gt;
+
+&lt;p&gt;会话层使不同设备上的用户之间能够建立会话，它负责控制用户间逻辑链路的建立和终止，同时负责报告上层的错误。常见的协议有 SSL/TLS 和 RPC 等。&lt;/p&gt;
+
+&lt;h3 id=&quot;6-表示层&quot;&gt;6. 表示层&lt;/h3&gt;
+
+&lt;p&gt;表示层标记不同系统之间的数据差异，并指定独立于系统架构的数据传输格式，它负责编码解码、加密解密和压缩解压数据。&lt;/p&gt;
+
+&lt;h3 id=&quot;7-应用层&quot;&gt;7. 应用层&lt;/h3&gt;
+
+&lt;p&gt;应用层包含用户使用的各种服务和协议，例如文件传输、电子邮件、Web 等等。&lt;/p&gt;
+
+&lt;h2 id=&quot;二tcpip-四层模型&quot;&gt;二、TCP/IP 四层模型&lt;/h2&gt;
+
+&lt;p&gt;尽管 OSI 定义很完善，但存在一些问题，首先实现复杂度较高，其次各层的功能划分不均，例如表示层和会话层的功能相对较少，因此相对简单的 TCP/IP 协议族是实际上的工业标准。TCP/IP 层级模型类似 OSI，但是没有公认的标准，通常采用四层模型来描述，相比于 OSI，TCP/IP 四层模型取消了会话层和表示层，同时把物理层和数据链路层融合为一个网络接口层。&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/osi-tcp-ip.webp&quot; alt=&quot;TCP/IP 模型图&quot; /&gt;
+  &lt;figcaption&gt;
+      OSI 与 TCP/IP 模型
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;1-网络接口层&quot;&gt;1. 网络接口层&lt;/h3&gt;
+
+&lt;p&gt;网络接口层规定主机必须使用某种协议连接到网络，以便向该主机发送 IP 数据包；这里所提到的协议并没有明确定义，可能在不同主机和网络上有不同的定义和实现。&lt;/p&gt;
+
+&lt;h3 id=&quot;2-网络层&quot;&gt;2. 网络层&lt;/h3&gt;
+
+&lt;p&gt;这里的网络层功能上和 OSI 网络层类似，它定义了正式的 IP 协议，规定了网络间传输的数据包格式和协议，IP 是 TCP/IP 协议族中最重要的协议，主要功能是将数据包发送到指定的目的地。&lt;/p&gt;
+
+&lt;h3 id=&quot;3-传输层&quot;&gt;3. 传输层&lt;/h3&gt;
+
+&lt;p&gt;传输层同样功能上类似于OSI传输层，主要包含两个端到端协议：TCP 和 UDP，它们也是 TCP/IP 中的重要协议，用于不同系统之间的跨进程通信。&lt;/p&gt;
+
+&lt;h3 id=&quot;4-应用层&quot;&gt;4. 应用层&lt;/h3&gt;
+
+&lt;p&gt;与OSI不同的是，应用层之下不再包括表示层和会话层，功能上和OSI应用层相似，提供高层的协议，例如 SMTP、FTP 等等。&lt;/p&gt;
+
+&lt;h2 id=&quot;三五层模型&quot;&gt;三、五层模型&lt;/h2&gt;
+
+&lt;p&gt;上述的 TCP/IP 模型没有很好地描述物理层和数据链路层的功能，而 OSI 模型的会话层和表示层几乎闲置，综合两者的特点，提出一种五层模型来描述网络分层结构，它类似于 TCP/IP 四层模型，只是将网络接口层替换为 OSI 七层模型的物理层和数据链路层，包括物理层、数据链路层、网络层、传输层和应用层。&lt;/p&gt;
+
+&lt;p&gt;五层模型仅用于学习和理解计算机网络原理，实际网络工程中并不常见。&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/osi-5-leyer-arch.webp&quot; alt=&quot;五层模型图&quot; /&gt;
+  &lt;figcaption&gt;
+      五层模型与 OSI
+
+    &lt;/figcaption&gt;&lt;/figure&gt;</content><author><name>Lnki</name></author><category term="技术" /><category term="网络" /><summary type="html">一、OSI 七层模型</summary></entry><entry><title type="html">Android 系统架构</title><link href="https://www.lnki.me/2018/09/android-arch/" rel="alternate" type="text/html" title="Android 系统架构" /><published>2018-09-05T00:00:00+08:00</published><updated>2018-09-05T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/android-arch</id><content type="html" xml:base="https://www.lnki.me/2018/09/android-arch/">&lt;p class=&quot;notice&quot;&gt;本文所述 Android 架构，是指 Android 系统内部的体系&lt;a href=&quot;https://source.android.com/devices/architecture&quot; title=&quot;Android 架构&quot;&gt;架构&lt;/a&gt;，相对于应用开发角度的 Android &lt;a href=&quot;https://developer.android.com/guide/platform&quot; title=&quot;平台架构&quot;&gt;平台架构&lt;/a&gt;，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。&lt;/p&gt;
 
 &lt;h2 id=&quot;一架构&quot;&gt;一、架构&lt;/h2&gt;
 
