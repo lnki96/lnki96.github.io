@@ -17,6 +17,12 @@ var store = [{
         "url": "https://www.lnki.me/2018/09/wlan-overview/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       },{
+        "title": "IEEE 802.11 MAC 基础盘点",
+        "excerpt":"这里简单过一过 IEEE 802.11 MAC 层的常见概念1，了解这些名词基本的的用途和目的，具体原理就不做深入讨论了。 MAC（Media Access Control） OSI 模型数据链路层子层，直接管理传输媒介，将传输媒介抽象为物理链路，负责物理链路冲突的避免、进行帧的封装与解封、错误检测和主机定位。 主动确认（Positive ACK） 由于无线链路的特殊性，传输会受到噪声和干扰的影响，802.11 采用主动确认的机制，所有传出去的帧必须得到回应，否则认为传输漏失，会进行重传。 隐藏节点问题 假设下图中节点 2 可以直接和节点 1、3 直接通信，但由于某些原因节点 1 无法直接接收到节点 3 的信号，对于节点 1 而言，节点 3 就是隐藏节点。节点 1、3 可能同时向节点 2 发送数据，节点 2 同时收到来自两边的数据便会出现异常，而且节点 1、3 也无从得知发生了错误。 隐藏节点 RTS（Request to Send） 为了解决隐藏节点问题，防止冲突发生，802.11 引入 RTS / CTS 机制，发送端在发送数据前，会先发送一个 RTS 帧，预约无线链路的使用权，其他 STA 收到...","categories": ["技术"],
+        "tags": ["网络","WLAN"],
+        "url": "https://www.lnki.me/2018/09/wlan-mac/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
         "title": "常见协议之 ARP 与 DHCP",
         "excerpt":"一、ARP ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。 发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。 ARP 地址解析过程 除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的...","categories": ["技术"],
         "tags": ["网络"],
