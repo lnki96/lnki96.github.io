@@ -164,10 +164,11 @@ p > code,
 a > code,
 li > code,
 figcaption > code,
-td > code {
+td > code,
+dl code {
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
-  font-size: 0.8em;
+  font-size: 0.6875rem;
   background: $code-background-color;
   border-radius: $border-radius;
 
@@ -206,14 +207,9 @@ li ol {
 /* Figures and images */
 
 figure {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: start;
-  align-items: flex-start;
-  flex-wrap: wrap;
   margin: 2em 0;
+  text-align: center;
+  align-items: center;
 
   img,
   iframe,
@@ -222,7 +218,6 @@ figure {
   }
 
   img {
-    width: 100%;
     border-radius: $border-radius;
     -webkit-transition: $global-transition;
     transition: $global-transition;
@@ -232,9 +227,53 @@ figure {
     display: block;
   }
 
-  &.half {
+  &.gallery {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
     > a,
     > img {
+      width: 100%;
+    }
+
+    figcaption {
+      font-size: 1em;
+      border-bottom: unset;
+
+      a {
+        -webkit-transition: $global-transition;
+        transition: $global-transition;
+
+        &:hover {
+          color: $link-color-hover;
+        }
+      }
+
+      p {
+        font-size: $type-size-7;
+        border-bottom: 1px solid $caption-border-color;
+      }
+    }
+  }
+
+  &.gallery__half {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    > a,
+    > img {
+      width: 100%;
+
       @include breakpoint($small) {
         width: calc(50% - 0.5em);
       }
@@ -242,12 +281,38 @@ figure {
 
     figcaption {
       width: 100%;
+      font-size: 1em;
+      border-bottom: unset;
+
+      a {
+        -webkit-transition: $global-transition;
+        transition: $global-transition;
+
+        &:hover {
+          color: $link-color-hover;
+        }
+      }
+
+      p {
+        font-size: $type-size-7;
+        border-bottom: 1px solid $caption-border-color;
+      }
     }
   }
 
-  &.third {
+  &.gallery__third {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
     > a,
     > img {
+      width: 100%;
+
       @include breakpoint($small) {
         width: calc(33.3333% - 0.5em);
       }
@@ -255,6 +320,22 @@ figure {
 
     figcaption {
       width: 100%;
+      font-size: 1em;
+      border-bottom: unset;
+
+      a {
+        -webkit-transition: $global-transition;
+        transition: $global-transition;
+
+        &:hover {
+          color: $link-color-hover;
+        }
+      }
+
+      p {
+        font-size: $type-size-7;
+        border-bottom: 1px solid $caption-border-color;
+      }
     }
   }
 }
@@ -263,17 +344,32 @@ figure {
 
 figcaption {
   margin-bottom: 0.5em;
-  color: $muted-text-color;
-  font-family: $caption-font-family;
-  font-size: $type-size-6;
+  color: $caption-text-color;
+  border-bottom: 1px solid $caption-border-color;
+  font-size: $type-size-7;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 
   a {
     -webkit-transition: $global-transition;
     transition: $global-transition;
+    text-decoration: none;
 
     &:hover {
       color: $link-color-hover;
     }
+  }
+
+  p {
+    font-size: 1em;
+    color: $caption-text-color;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  img {
+    margin-bottom: unset;
   }
 }
 

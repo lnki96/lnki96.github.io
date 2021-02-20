@@ -330,6 +330,7 @@ button {
   color: $mfp-controls-text-color;
   font-size: 12px;
   line-height: 18px;
+  font-family: $global-font-family;
 }
 
 // Navigation arrows
@@ -519,6 +520,7 @@ button {
     color: $mfp-caption-title-color;
     word-wrap: break-word;
     padding-right: 36px; // leave some space for counter at right side
+    font-family: $global-font-family;
   }
 
   .mfp-image-holder {

@@ -2,23 +2,54 @@
    TABLES
    ========================================================================== */
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
   display: block;
   margin-bottom: 1em;
-  width: 100%;
+  width: fit-content;
   font-family: $global-font-family;
-  font-size: $type-size-6;
   border-collapse: collapse;
-  overflow-x: auto;
+  margin-left: auto;
+  margin-right: auto;
 
   & + table {
     margin-top: 1em;
+  }
+
+  caption {
+    font-size: $type-size-7;
+    color: $caption-text-color;
+    border-bottom: 1px solid $caption-border-color;
+    width: fit-content;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+
+    a {
+      -webkit-transition: $global-transition;
+      transition: $global-transition;
+      text-decoration: none;
+
+      &:hover {
+        color: $link-color-hover;
+      }
+    }
   }
 }
 
 thead {
   background-color: $border-color;
   border-bottom: 2px solid mix(#000, $border-color, 25%);
+}
+
+thead,
+tbody,
+tfoot {
+  font-size: $type-size-6;
 }
 
 th {

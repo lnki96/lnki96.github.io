@@ -108,6 +108,12 @@ body {
   p,
   li,
   dl {
+    font-size: $type-size-5-5;
+  }
+
+  li dl,
+  dl dd,
+  dd p {
     font-size: 1em;
   }
 
@@ -188,7 +194,7 @@ body {
       padding-right: 1em;
 
       @include breakpoint($x-large) {
-        max-width: $x-large;
+        max-width: $max-width;
       }
     }
 
@@ -427,6 +433,10 @@ body {
   -webkit-transition: $global-transition;
   transition: $global-transition;
 
+  .small {
+    font-size: $type-size-6-5;
+  }
+
   &.disabled {
     input,
     button,
@@ -445,6 +455,24 @@ body {
   @include clearfix();
   margin: 1em 0;
 
+  p {
+    font-size: $type-size-6;
+  }
+
+  p.comment__date {
+    font-size: $type-size-7;
+  }
+
+  @include breakpoint($large) {
+    p {
+      font-size: $type-size-5-5;
+    }
+
+    p.comment__date {
+      font-size: $type-size-6-5;
+    }
+  }
+
   &:not(:last-child) {
     border-bottom: 1px solid $border-color;
   }
@@ -456,8 +484,8 @@ body {
   height: 60px;
 
   @include breakpoint($large) {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 }
 
@@ -465,10 +493,11 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  margin-top: 5px;
 
   @include breakpoint($large) {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     padding: 5px;
     border: 1px solid $border-color;
   }
@@ -479,12 +508,18 @@ body {
   width: calc(100% - 60px);
 
   @include breakpoint($large) {
-    width: calc(100% - 100px);
+    width: calc(100% - 80px);
   }
 }
 
 .comment__author {
   margin: 0;
+  line-height: 1.5;
+  font-size: $h-size-5;
+
+  @include breakpoint($large) {
+    font-size: $h-size-4;
+  }
 
   a {
     text-decoration: none;

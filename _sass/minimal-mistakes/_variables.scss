@@ -39,7 +39,9 @@ $type-size-2: 1.953em !default; // ~31.248px
 $type-size-3: 1.563em !default; // ~25.008px
 $type-size-4: 1.25em !default; // ~20px
 $type-size-5: 1em !default; // ~16px
+$type-size-5-5: 0.8125em !default; // ~13px
 $type-size-6: 0.75em !default; // ~12px
+$type-size-6-5: 0.71875em !default; // ~11.5px
 $type-size-7: 0.6875em !default; // ~11px
 $type-size-8: 0.625em !default; // ~10px
 
@@ -56,9 +58,9 @@ $h-size-6: 1em !default; // ~16px
    ========================================================================== */
 
 $gray: #7a8288 !default;
-$dark-gray: mix(#000, $gray, 50%) !default;
+$dark-gray: mix(#000, $gray, 40%) !default;
 $darker-gray: mix(#000, $gray, 60%) !default;
-$light-gray: mix(#fff, $gray, 50%) !default;
+$light-gray: mix(#fff, $gray, 40%) !default;
 $lighter-gray: mix(#fff, $gray, 90%) !default;
 
 $background-color: #fff !default;
@@ -66,6 +68,8 @@ $code-background-color: #fafafa !default;
 $code-background-color-dark: $light-gray !default;
 $text-color: $dark-gray !default;
 $muted-text-color: mix(#fff, $text-color, 20%) !default;
+$caption-text-color: mix(#fff, $text-color, 25%) !default;
+$caption-border-color: mix(#fff, $text-color, 75%) !default;
 $border-color: $lighter-gray !default;
 $form-background-color: $lighter-gray !default;
 $footer-background-color: $lighter-gray !default;
@@ -145,7 +149,7 @@ $medium: 768px !default;
 $medium-wide: 900px !default;
 $large: 1024px !default;
 $x-large: 1280px !default;
-$max-width: $x-large !default;
+$max-width: 1366px !default;
 
 /*
    Grid
