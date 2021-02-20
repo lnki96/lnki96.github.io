@@ -65,6 +65,12 @@ var store = [{
         "url": "https://www.lnki.me/2018/09/wlan-sec-overview/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       },{
+        "title": "Android 中的状态机实现",
+        "excerpt":"状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。 一、架构 StateMachine 实现了 Android 状态机的基本逻辑，只允许 Android 系统内部调用，它的内部结构如图： StateMachine 架构示意 StateMachine 所实现的状态机是一种分层状态机（Hierarchical State Machine，HSM），分层管理状态和处理消息。HSM 维护一个层次结构，也就是状态树，每一层都有一个或多个状态，这些状态派生自 State，StateMachine 收到的消息会被传递至这些状态，派生一种状态需要实现其 processMessage 方法来完成该状态的消息处理逻辑。 StateMachine 所实现的状态机启动时，会构造一个状态树，固定每种状态及其父状态、子状态的关系，然后将当前状态设置为指定的初始状态，当前状态相当于一个指针，它在这棵状态树上游走。以下面的状态机层次结构为例，设 mS5 为初始状态，构造完成时，当前状态的转移路径为从 mS5 的最远父状态也就是 mP0 开始，依次经过 mP1、mS1，直到 mS5。 mP0 / \\ mP1 mS0 / \\ mS2 mS1 / \\ \\ mS3 mS4 mS5 完成启动后，状态机开始处理消息。当状态机收到一个消息时，首先转给当前状态 mS5，由其 processMessage 方法处理。若子状态不能处理，消息将被转给其父状态，以此类推，状态机沿着状态树逐级上溯，直到找到一个可以处理该消息的状态，比如一条只有 mP1 才能处理的消息，会经过...","categories": ["技术"],
+        "tags": ["Android"],
+        "url": "https://www.lnki.me/2018/09/android-state-machine/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
         "title": "常见协议之 ARP 与 DHCP",
         "excerpt":"一、ARP ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。 发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。 ARP 地址解析过程 除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的...","categories": ["技术"],
         "tags": ["网络"],

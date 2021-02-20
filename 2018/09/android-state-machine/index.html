@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.21.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+--><html lang="zh" class="no-js">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Android 中的状态机实现 - Lnki’s Home · 网上冲浪日志</title>
+<meta name="description" content="状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/assets/images/site.webmanifest">
+<link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  <meta name="author" content="Lnki">
+  
+  <meta property="article:author" content="Lnki">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="Lnki's Home · 网上冲浪日志">
+<meta property="og:title" content="Android 中的状态机实现">
+<meta property="og:url" content="https://www.lnki.me/2018/09/android-state-machine/">
+
+
+  <meta property="og:description" content="状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。">
+
+
+
+  <meta property="og:image" content="https://www.lnki.me/assets/images/header.webp">
+
+
+
+
+
+  <meta property="article:published_time" content="2018-09-19T00:00:00+08:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://www.lnki.me/2018/09/android-state-machine/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Lnki",
+      "url": "https://www.lnki.me/"
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="P-phvtaGdTKHufE7PPSHDPWodvUBT2Ml9dmAWSkfZ-o">
+
+
+  <meta name="msvalidate.01" content="F971B875E4FFC4A9975C44932501E596">
+
+
+
+
+
+  <meta name="baidu-site-verification" content="code-5mw42wt3aD">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Lnki's Home · 网上冲浪日志 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">跳转链接</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          Lnki's Home
+          <span class="site-subtitle">网上冲浪日志</span>
+        </a>
+        <ul class="visible-links">
+<li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/categories/">分类</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/tags/">标签</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/archives/">归档</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/about/">关于</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/meow/">喵～</a>
+            </li>
+</ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">切换菜单</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/header.webp');">
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Android 中的状态机实现
+
+        
+      </h1>
+      
+      
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-19T00:00:00+08:00">2018 年 9 月 19 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 13 分钟
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar.png" alt="Lnki" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Lnki</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个普通的唯物主义者</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">关注</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">猎户座悬臂</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:lnki96@hotmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">lnki96@hotmail.com</span></a></li>
+          
+        
+          
+            <li><a href="https://www.lnki.me" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Lnki's Home</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/lnki96" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Android 中的状态机实现">
+    <meta itemprop="description" content="状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。">
+    <meta itemprop="datePublished" content="2018-09-19T00:00:00+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title">
+<i class="fas fa-file-alt"></i> 目录</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#%E4%B8%80%E6%9E%B6%E6%9E%84">一、架构</a></li>
+  <li>
+<a href="#%E4%BA%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB">二、代码解读</a>
+    <ul>
+      <li><a href="#1-%E7%8A%B6%E6%80%81%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96">1. 状态机初始化</a></li>
+      <li><a href="#2-%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86">2. 消息处理</a></li>
+      <li><a href="#3-%E7%8A%B6%E6%80%81%E5%88%87%E6%8D%A2">3. 状态切换</a></li>
+      <li><a href="#4-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92">4. 消息传递</a></li>
+      <li><a href="#5-%E7%8A%B6%E6%80%81%E6%9C%BA%E9%80%80%E5%87%BA">5. 状态机退出</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>状态机是一种面向对象的设计模式，用来描述对象在生命周期中的各种状态，以及它们之间的关系。状态机中每种状态只能进行某些特定的操作，且只能切换到某些状态。它的好处是使逻辑与状态机代码分离，提升代码可读性和可维护性。</p>
+
+<h2 id="一架构">一、架构</h2>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 实现了 Android 状态机的基本逻辑，只允许 Android 系统内部调用，它的内部结构如图：</p>
+
+<figure class="">
+  
+  <img src="/contents/posts/android-statemachine.webp" alt="Android StateMachine 类图">
+  <figcaption>
+      StateMachine 架构示意
+
+    </figcaption></figure>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 所实现的状态机是一种分层状态机（Hierarchical State Machine，HSM），分层管理状态和处理消息。HSM 维护一个层次结构，也就是状态树，每一层都有一个或多个状态，这些状态派生自 <code class="language-plaintext highlighter-rouge">State</code>，<code class="language-plaintext highlighter-rouge">StateMachine</code> 收到的消息会被传递至这些状态，派生一种状态需要实现其 <code class="language-plaintext highlighter-rouge">processMessage</code> 方法来完成该状态的消息处理逻辑。</p>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 所实现的状态机启动时，会构造一个状态树，固定每种状态及其父状态、子状态的关系，然后将当前状态设置为指定的初始状态，当前状态相当于一个指针，它在这棵状态树上游走。以下面的状态机层次结构为例，设 <code class="language-plaintext highlighter-rouge">mS5</code> 为初始状态，构造完成时，当前状态的转移路径为从 <code class="language-plaintext highlighter-rouge">mS5</code> 的最远父状态也就是 <code class="language-plaintext highlighter-rouge">mP0</code> 开始，依次经过 <code class="language-plaintext highlighter-rouge">mP1</code>、<code class="language-plaintext highlighter-rouge">mS1</code>，直到 <code class="language-plaintext highlighter-rouge">mS5</code>。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      mP0
+     /   \
+    mP1   mS0
+   /   \
+  mS2   mS1
+ /   \     \
+mS3   mS4   mS5
+</code></pre></div></div>
+
+<p>完成启动后，状态机开始处理消息。当状态机收到一个消息时，首先转给当前状态 <code class="language-plaintext highlighter-rouge">mS5</code>，由其 <code class="language-plaintext highlighter-rouge">processMessage</code> 方法处理。若子状态不能处理，消息将被转给其父状态，以此类推，状态机沿着状态树逐级上溯，直到找到一个可以处理该消息的状态，比如一条只有 <code class="language-plaintext highlighter-rouge">mP1</code> 才能处理的消息，会经过 <code class="language-plaintext highlighter-rouge">mS5</code>、<code class="language-plaintext highlighter-rouge">mS1</code> 再转进 <code class="language-plaintext highlighter-rouge">mP1</code>。如果追溯到最远父状态 <code class="language-plaintext highlighter-rouge">mP0</code> 依然不能处理，该消息就会被最后集中处理。</p>
+
+<p>状态机内部有一个 <code class="language-plaintext highlighter-rouge">Handler</code>，它负责维护消息队列，并完成消息管理和分发，进入状态机的消息可以选择加入这个消息队列的头部或是尾部，每次处理消息 <code class="language-plaintext highlighter-rouge">Handler</code> 就从消息队列头部取出一条消息，分发给相应的状态处理。处理消息时，负责处理消息的状态可以标记要切换到的新状态，待消息处理完后，状态机会自动切换过去。</p>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 有两个特殊的 <code class="language-plaintext highlighter-rouge">State</code>：<code class="language-plaintext highlighter-rouge">HaltingState</code> 与 <code class="language-plaintext highlighter-rouge">QuittingState</code>，它们出现在状态机退出的过程中，<code class="language-plaintext highlighter-rouge">haltingState</code> 是停止、即将退出的状态，进入这个状态后，将不能再回到普通状态，此时 <code class="language-plaintext highlighter-rouge">Handler</code> 依然在运行，所有的消息由 <code class="language-plaintext highlighter-rouge">haltedProcessMessage</code> 方法处理；<code class="language-plaintext highlighter-rouge">QuitingState</code> 是退出状态，这个状态结束后，状态机线程结束，完全退出。假设当前状态依然是 <code class="language-plaintext highlighter-rouge">mS5</code>，停止或退出状态机时，沿着状态树先后退出 <code class="language-plaintext highlighter-rouge">mS5</code>、<code class="language-plaintext highlighter-rouge">mS1</code>、<code class="language-plaintext highlighter-rouge">mP1</code>、<code class="language-plaintext highlighter-rouge">mP0</code>，最后如果停止则进入 <code class="language-plaintext highlighter-rouge">mHaltingState</code>，如果退出则进入 <code class="language-plaintext highlighter-rouge">mQuittingState</code>。</p>
+
+<h2 id="二代码解读">二、代码解读</h2>
+
+<h3 id="1-状态机初始化">1. 状态机初始化</h3>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 提供了三个构造方法，三个方法大同小异，构造时如果没有提供 <code class="language-plaintext highlighter-rouge">Looper</code>，就使用内部线程的 <code class="language-plaintext highlighter-rouge">Looper</code>。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protected</span> <span class="nf">StateMachine</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mSmThread</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HandlerThread</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+    <span class="n">mSmThread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="nc">Looper</span> <span class="n">looper</span> <span class="o">=</span> <span class="n">mSmThread</span><span class="o">.</span><span class="na">getLooper</span><span class="o">();</span>
+
+    <span class="n">initStateMachine</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">looper</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 在 <code class="language-plaintext highlighter-rouge">Looper</code> 所在的线程运行，状态机初始化时使用 <code class="language-plaintext highlighter-rouge">Looper</code> 构造一个 <code class="language-plaintext highlighter-rouge">SmHandler</code>，用于处理状态机的通讯。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initStateMachine</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">Looper</span> <span class="n">looper</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mName</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="n">mSmHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SmHandler</span><span class="o">(</span><span class="n">looper</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 是一种 HSM，需要调用 <code class="language-plaintext highlighter-rouge">addState</code> 方法指定它的层级关系，为指定的父状态添加子状态，如果不指定父状态，则创建一个孤立的状态节点。状态关系信息存储于 <code class="language-plaintext highlighter-rouge">mStateInfo</code> 中。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="nc">StateInfo</span> <span class="nf">addState</span><span class="o">(</span><span class="nc">State</span> <span class="n">state</span><span class="o">,</span> <span class="nc">State</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"addStateInternal: E state="</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">",parent="</span>
+                <span class="o">+</span> <span class="o">((</span><span class="n">parent</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="s">""</span> <span class="o">:</span> <span class="n">parent</span><span class="o">.</span><span class="na">getName</span><span class="o">()));</span>
+    <span class="o">}</span>
+    <span class="nc">StateInfo</span> <span class="n">parentStateInfo</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">parentStateInfo</span> <span class="o">=</span> <span class="n">mStateInfo</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">parent</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">parentStateInfo</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Recursively add our parent as it's not been added yet.</span>
+            <span class="n">parentStateInfo</span> <span class="o">=</span> <span class="n">addState</span><span class="o">(</span><span class="n">parent</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="nc">StateInfo</span> <span class="n">stateInfo</span> <span class="o">=</span> <span class="n">mStateInfo</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">state</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">stateInfo</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">stateInfo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StateInfo</span><span class="o">();</span>
+        <span class="n">mStateInfo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">state</span><span class="o">,</span> <span class="n">stateInfo</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Validate that we aren't adding the same state in two different hierarchies.</span>
+    <span class="k">if</span> <span class="o">((</span><span class="n">stateInfo</span><span class="o">.</span><span class="na">parentStateInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">stateInfo</span><span class="o">.</span><span class="na">parentStateInfo</span> <span class="o">!=</span> <span class="n">parentStateInfo</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"state already added"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">stateInfo</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">;</span>
+    <span class="n">stateInfo</span><span class="o">.</span><span class="na">parentStateInfo</span> <span class="o">=</span> <span class="n">parentStateInfo</span><span class="o">;</span>
+    <span class="n">stateInfo</span><span class="o">.</span><span class="na">active</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"addStateInternal: X stateInfo: "</span> <span class="o">+</span> <span class="n">stateInfo</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">stateInfo</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>构造完成后，调用 <code class="language-plaintext highlighter-rouge">start</code> 方法启动状态机，其内部调用 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">completeConstruction</code> 方法，完成状态机构造的动作。<code class="language-plaintext highlighter-rouge">completeConstruction</code> 方法首先遍历状态树，并找到树的最大深度，用于确定状态栈的大小，并构造初始的状态栈，所有动作完成后，发送 <code class="language-plaintext highlighter-rouge">SM_INIT_CMD</code> 消息，报告状态机已构造完成。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">completeConstruction</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"completeConstruction: E"</span><span class="o">);</span>
+
+    <span class="cm">/**
+      * Determine the maximum depth of the state hierarchy
+      * so we can allocate the state stacks.
+      */</span>
+    <span class="kt">int</span> <span class="n">maxDepth</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">StateInfo</span> <span class="n">si</span> <span class="o">:</span> <span class="n">mStateInfo</span><span class="o">.</span><span class="na">values</span><span class="o">())</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">StateInfo</span> <span class="n">i</span> <span class="o">=</span> <span class="n">si</span><span class="o">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">depth</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">parentStateInfo</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">maxDepth</span> <span class="o">&lt;</span> <span class="n">depth</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">maxDepth</span> <span class="o">=</span> <span class="n">depth</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"completeConstruction: maxDepth="</span> <span class="o">+</span> <span class="n">maxDepth</span><span class="o">);</span>
+
+    <span class="n">mStateStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StateInfo</span><span class="o">[</span><span class="n">maxDepth</span><span class="o">];</span>
+    <span class="n">mTempStateStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StateInfo</span><span class="o">[</span><span class="n">maxDepth</span><span class="o">];</span>
+    <span class="n">setupInitialStateStack</span><span class="o">();</span>
+
+    <span class="cm">/** Sending SM_INIT_CMD message to invoke enter methods asynchronously */</span>
+    <span class="n">sendMessageAtFrontOfQueue</span><span class="o">(</span><span class="n">obtainMessage</span><span class="o">(</span><span class="no">SM_INIT_CMD</span><span class="o">,</span> <span class="n">mSmHandlerObj</span><span class="o">));</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"completeConstruction: X"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>构造状态栈时，先构造临时状态栈，从初始状态开始，上溯状态树，依次放入临时状态栈中，直到最远父状态，最后再将临时状态栈内容以相反的顺序保存至状态栈中。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">setupInitialStateStack</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"setupInitialStateStack: E mInitialState="</span> <span class="o">+</span> <span class="n">mInitialState</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nc">StateInfo</span> <span class="n">curStateInfo</span> <span class="o">=</span> <span class="n">mStateInfo</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mInitialState</span><span class="o">);</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">mTempStateStackCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">curStateInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">mTempStateStackCount</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">mTempStateStack</span><span class="o">[</span><span class="n">mTempStateStackCount</span><span class="o">]</span> <span class="o">=</span> <span class="n">curStateInfo</span><span class="o">;</span>
+        <span class="n">curStateInfo</span> <span class="o">=</span> <span class="n">curStateInfo</span><span class="o">.</span><span class="na">parentStateInfo</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Empty the StateStack</span>
+    <span class="n">mStateStackTopIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+
+    <span class="n">moveTempStateStackToStateStack</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">moveTempStateStackToStateStack</code> 方法将临时状态栈按相反顺序保存到状态栈中。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">moveTempStateStackToStateStack</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">startingIndex</span> <span class="o">=</span> <span class="n">mStateStackTopIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">mTempStateStackCount</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">startingIndex</span><span class="o">;</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"moveTempStackToStateStack: i="</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="s">",j="</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+        <span class="n">mStateStack</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">mTempStateStack</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">mStateStackTopIndex</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"moveTempStackToStateStack: X mStateStackTop="</span> <span class="o">+</span> <span class="n">mStateStackTopIndex</span>
+                <span class="o">+</span> <span class="s">",startingIndex="</span> <span class="o">+</span> <span class="n">startingIndex</span> <span class="o">+</span> <span class="s">",Top="</span>
+                <span class="o">+</span> <span class="n">mStateStack</span><span class="o">[</span><span class="n">mStateStackTopIndex</span><span class="o">].</span><span class="na">state</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">startingIndex</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">SmHandler</code> 从 <code class="language-plaintext highlighter-rouge">Looper</code> 取得 <code class="language-plaintext highlighter-rouge">SM_INIT_CMD</code> 消息，调用 <code class="language-plaintext highlighter-rouge">handleMessage</code> 进行处理，内部再调用 <code class="language-plaintext highlighter-rouge">invokeEnterMethods</code>，以进入到初始状态。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">mHasQuit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mSm</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">msg</span><span class="o">.</span><span class="na">what</span> <span class="o">!=</span> <span class="no">SM_INIT_CMD</span> <span class="o">&amp;&amp;</span> <span class="n">msg</span><span class="o">.</span><span class="na">what</span> <span class="o">!=</span> <span class="no">SM_QUIT_CMD</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mSm</span><span class="o">.</span><span class="na">onPreHandleMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"handleMessage: E msg.what="</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="na">what</span><span class="o">);</span>
+
+        <span class="cm">/** Save the current message */</span>
+        <span class="n">mMsg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">;</span>
+
+        <span class="cm">/** State that processed the message */</span>
+        <span class="nc">State</span> <span class="n">msgProcessedState</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mIsConstructionCompleted</span> <span class="o">||</span> <span class="o">(</span><span class="n">mMsg</span><span class="o">.</span><span class="na">what</span> <span class="o">==</span> <span class="no">SM_QUIT_CMD</span><span class="o">))</span> <span class="o">{</span>
+            <span class="cm">/** Normal path */</span>
+            <span class="n">msgProcessedState</span> <span class="o">=</span> <span class="n">processMsg</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(!</span><span class="n">mIsConstructionCompleted</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">mMsg</span><span class="o">.</span><span class="na">what</span> <span class="o">==</span> <span class="no">SM_INIT_CMD</span><span class="o">)</span>
+                <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">mMsg</span><span class="o">.</span><span class="na">obj</span> <span class="o">==</span> <span class="n">mSmHandlerObj</span><span class="o">))</span> <span class="o">{</span>
+            <span class="cm">/** Initial one time path. */</span>
+            <span class="n">mIsConstructionCompleted</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">invokeEnterMethods</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"StateMachine.handleMessage: "</span>
+                    <span class="o">+</span> <span class="s">"The start method not called, received msg: "</span> <span class="o">+</span> <span class="n">msg</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">performTransitions</span><span class="o">(</span><span class="n">msgProcessedState</span><span class="o">,</span> <span class="n">msg</span><span class="o">);</span>
+
+        <span class="c1">// We need to check if mSm == null here as we could be quitting.</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span> <span class="o">&amp;&amp;</span> <span class="n">mSm</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"handleMessage: X"</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">mSm</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">msg</span><span class="o">.</span><span class="na">what</span> <span class="o">!=</span> <span class="no">SM_INIT_CMD</span> <span class="o">&amp;&amp;</span> <span class="n">msg</span><span class="o">.</span><span class="na">what</span> <span class="o">!=</span> <span class="no">SM_QUIT_CMD</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mSm</span><span class="o">.</span><span class="na">onPostHandleMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">invokeEnterMethods</code> 的参数为一个整数，表示第一个要进入的状态在栈中的索引位置，从该位置开始依次调用每个状态的 <code class="language-plaintext highlighter-rouge">enter</code> 方法，直到到达栈顶。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">invokeEnterMethods</span><span class="o">(</span><span class="kt">int</span> <span class="n">stateStackEnteringIndex</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">stateStackEnteringIndex</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">mStateStackTopIndex</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">stateStackEnteringIndex</span> <span class="o">==</span> <span class="n">mStateStackTopIndex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Last enter state for transition</span>
+            <span class="n">mTransitionInProgress</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"invokeEnterMethods: "</span> <span class="o">+</span> <span class="n">mStateStack</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">state</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="n">mStateStack</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">state</span><span class="o">.</span><span class="na">enter</span><span class="o">();</span>
+        <span class="n">mStateStack</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">active</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">mTransitionInProgress</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// ensure flag set to false if no methods called</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>至此，状态机的初始化过程完成。</p>
+
+<h3 id="2-消息处理">2. 消息处理</h3>
+
+<p><code class="language-plaintext highlighter-rouge">StateMachine</code> 收到的消息由 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 负责管理和分发，在 <code class="language-plaintext highlighter-rouge">handleMessage</code> 方法内部，收到消息并且判断 <code class="language-plaintext highlighter-rouge">StateMachine</code> 已经启动完成时，就会调用 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">processMsg</code> 方法，<code class="language-plaintext highlighter-rouge">processMsg</code> 获取状态栈栈顶——即当前状态的信息，然后调用所对应的 <code class="language-plaintext highlighter-rouge">State</code> 对象的 <code class="language-plaintext highlighter-rouge">processMessage</code> 方法，在状态内完成消息处理逻辑。若当前状态无法处理该消息，或是处理完后需要父状态继续处理，则继续调用父状态 <code class="language-plaintext highlighter-rouge">State</code> 对象的 <code class="language-plaintext highlighter-rouge">processMessage</code> 方法，直到消息处理完成，若所有父状态都不能处理，则调用 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">unHandledMessage</code>，尝试最后一次消息处理。该方法返回最后处理消息的状态，抑或是 <code class="language-plaintext highlighter-rouge">null</code>。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="nc">State</span> <span class="nf">processMsg</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">StateInfo</span> <span class="n">curStateInfo</span> <span class="o">=</span> <span class="n">mStateStack</span><span class="o">[</span><span class="n">mStateStackTopIndex</span><span class="o">];</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"processMsg: "</span> <span class="o">+</span> <span class="n">curStateInfo</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">isQuit</span><span class="o">(</span><span class="n">msg</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">transitionTo</span><span class="o">(</span><span class="n">mQuittingState</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">curStateInfo</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">processMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">))</span> <span class="o">{</span>
+            <span class="cm">/**
+              * Not processed
+              */</span>
+            <span class="n">curStateInfo</span> <span class="o">=</span> <span class="n">curStateInfo</span><span class="o">.</span><span class="na">parentStateInfo</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">curStateInfo</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="cm">/**
+                  * No parents left so it's not handled
+                  */</span>
+                <span class="n">mSm</span><span class="o">.</span><span class="na">unhandledMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"processMsg: "</span> <span class="o">+</span> <span class="n">curStateInfo</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="o">(</span><span class="n">curStateInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">curStateInfo</span><span class="o">.</span><span class="na">state</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="3-状态切换">3. 状态切换</h3>
+
+<p>每个状态在消息处理时，可以选择切换到指定状态，这个过程通过调用状态机的 <code class="language-plaintext highlighter-rouge">transitionTo</code> 方法触发。状态切换完成后，下一个消息将由新的状态处理。可以看到实际上是调用的 <code class="language-plaintext highlighter-rouge">mSmHandler.transitionTo</code> 方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">transitionTo</span><span class="o">(</span><span class="nc">IState</span> <span class="n">destState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mSmHandler</span><span class="o">.</span><span class="na">transitionTo</span><span class="o">(</span><span class="n">destState</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mSmHandler.transitionTo</code> 仅标记状态切换的目标状态，实际上不会执行切换操作，这是为了在状态切换前，完成包括当前状态和一系列父状态的消息处理逻辑，待消息处理完成并返回到 <code class="language-plaintext highlighter-rouge">mSmHandler.handleMessage</code> 方法后再通过调用 <code class="language-plaintext highlighter-rouge">performTransitions</code> 方法执行切换。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** @see StateMachine#transitionTo(IState) */</span>
+<span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">transitionTo</span><span class="o">(</span><span class="nc">IState</span> <span class="n">destState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mTransitionInProgress</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Log</span><span class="o">.</span><span class="na">wtf</span><span class="o">(</span><span class="n">mSm</span><span class="o">.</span><span class="na">mName</span><span class="o">,</span> <span class="s">"transitionTo called while transition already in progress to "</span> <span class="o">+</span>
+                <span class="n">mDestState</span> <span class="o">+</span> <span class="s">", new target state="</span> <span class="o">+</span> <span class="n">destState</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">mDestState</span> <span class="o">=</span> <span class="o">(</span><span class="nc">State</span><span class="o">)</span> <span class="n">destState</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"transitionTo: destState="</span> <span class="o">+</span> <span class="n">mDestState</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">performTransitions</code> 方法负责执行状态的切换流程。首先调用 <code class="language-plaintext highlighter-rouge">setupTempStateStackWithStatesToEnter</code> 方法来获得当前状态和目的状态的公共父状态，然后调用 <code class="language-plaintext highlighter-rouge">invokeExitMethods</code> 方法从当前状态沿状态栈逐级退出到公共父状态，再调用 <code class="language-plaintext highlighter-rouge">invokeEnterMethods</code> 方法从公共父状态进入到目的状态，最后调用 <code class="language-plaintext highlighter-rouge">moveDeferredMessageAtFrontOfQueue</code> 方法将延时消息列表的消息导入到消息队列头部。若在此过程中，目的状态发生改变，则再次执行，直到最终的状态与目的状态一致。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">performTransitions</span><span class="o">(</span><span class="nc">State</span> <span class="n">msgProcessedState</span><span class="o">,</span> <span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="cm">/**
+      * If transitionTo has been called, exit and then enter
+      * the appropriate states. We loop on this to allow
+      * enter and exit methods to use transitionTo.
+      */</span>
+    <span class="nc">State</span> <span class="n">orgState</span> <span class="o">=</span> <span class="n">mStateStack</span><span class="o">[</span><span class="n">mStateStackTopIndex</span><span class="o">].</span><span class="na">state</span><span class="o">;</span>
+
+    <span class="cm">/**
+      * Record whether message needs to be logged before we transition and
+      * and we won't log special messages SM_INIT_CMD or SM_QUIT_CMD which
+      * always set msg.obj to the handler.
+      */</span>
+    <span class="kt">boolean</span> <span class="n">recordLogMsg</span> <span class="o">=</span> <span class="n">mSm</span><span class="o">.</span><span class="na">recordLogRec</span><span class="o">(</span><span class="n">mMsg</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">msg</span><span class="o">.</span><span class="na">obj</span> <span class="o">!=</span> <span class="n">mSmHandlerObj</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">mLogRecords</span><span class="o">.</span><span class="na">logOnlyTransitions</span><span class="o">())</span> <span class="o">{</span>
+        <span class="cm">/** Record only if there is a transition */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDestState</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mLogRecords</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">mSm</span><span class="o">,</span> <span class="n">mMsg</span><span class="o">,</span> <span class="n">mSm</span><span class="o">.</span><span class="na">getLogRecString</span><span class="o">(</span><span class="n">mMsg</span><span class="o">),</span> <span class="n">msgProcessedState</span><span class="o">,</span>
+                    <span class="n">orgState</span><span class="o">,</span> <span class="n">mDestState</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">recordLogMsg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/** Record message */</span>
+        <span class="n">mLogRecords</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">mSm</span><span class="o">,</span> <span class="n">mMsg</span><span class="o">,</span> <span class="n">mSm</span><span class="o">.</span><span class="na">getLogRecString</span><span class="o">(</span><span class="n">mMsg</span><span class="o">),</span> <span class="n">msgProcessedState</span><span class="o">,</span> <span class="n">orgState</span><span class="o">,</span>
+                <span class="n">mDestState</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nc">State</span> <span class="n">destState</span> <span class="o">=</span> <span class="n">mDestState</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">destState</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/**
+          * Process the transitions including transitions in the enter/exit methods
+          */</span>
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"handleMessage: new destination call exit/enter"</span><span class="o">);</span>
+
+            <span class="cm">/**
+              * Determine the states to exit and enter and return the
+              * common ancestor state of the enter/exit states. Then
+              * invoke the exit methods then the enter methods.
+              */</span>
+            <span class="nc">StateInfo</span> <span class="n">commonStateInfo</span> <span class="o">=</span> <span class="n">setupTempStateStackWithStatesToEnter</span><span class="o">(</span><span class="n">destState</span><span class="o">);</span>
+            <span class="c1">// flag is cleared in invokeEnterMethods before entering the target state</span>
+            <span class="n">mTransitionInProgress</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">invokeExitMethods</span><span class="o">(</span><span class="n">commonStateInfo</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">stateStackEnteringIndex</span> <span class="o">=</span> <span class="n">moveTempStateStackToStateStack</span><span class="o">();</span>
+            <span class="n">invokeEnterMethods</span><span class="o">(</span><span class="n">stateStackEnteringIndex</span><span class="o">);</span>
+
+            <span class="cm">/**
+              * Since we have transitioned to a new state we need to have
+              * any deferred messages moved to the front of the message queue
+              * so they will be processed before any other messages in the
+              * message queue.
+              */</span>
+            <span class="n">moveDeferredMessageAtFrontOfQueue</span><span class="o">();</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">destState</span> <span class="o">!=</span> <span class="n">mDestState</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// A new mDestState so continue looping</span>
+                <span class="n">destState</span> <span class="o">=</span> <span class="n">mDestState</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// No change in mDestState so we're done</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">mDestState</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * After processing all transitions check and
+      * see if the last transition was to quit or halt.
+      */</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">destState</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">destState</span> <span class="o">==</span> <span class="n">mQuittingState</span><span class="o">)</span> <span class="o">{</span>
+            <span class="cm">/**
+              * Call onQuitting to let subclasses cleanup.
+              */</span>
+            <span class="n">mSm</span><span class="o">.</span><span class="na">onQuitting</span><span class="o">();</span>
+            <span class="n">cleanupAfterQuitting</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">destState</span> <span class="o">==</span> <span class="n">mHaltingState</span><span class="o">)</span> <span class="o">{</span>
+            <span class="cm">/**
+              * Call onHalting() if we've transitioned to the halting
+              * state. All subsequent messages will be processed in
+              * in the halting state which invokes haltedProcessMessage(msg);
+              */</span>
+            <span class="n">mSm</span><span class="o">.</span><span class="na">onHalting</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">setupTempStateStackWithStatesToEnter</code> 方法构造一个临时状态栈，其中保存状态树中目标状态到公共父状态的依赖路径，并返回栈顶的内容，即当前状态和目的状态的公共父状态，如果没有公共父状态，则返回空。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="nc">StateInfo</span> <span class="nf">setupTempStateStackWithStatesToEnter</span><span class="o">(</span><span class="nc">State</span> <span class="n">destState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="cm">/**
+      * Search up the parent list of the destination state for an active
+      * state. Use a do while() loop as the destState must always be entered
+      * even if it is active. This can happen if we are exiting/entering
+      * the current state.
+      */</span>
+    <span class="n">mTempStateStackCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="nc">StateInfo</span> <span class="n">curStateInfo</span> <span class="o">=</span> <span class="n">mStateInfo</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">destState</span><span class="o">);</span>
+    <span class="k">do</span> <span class="o">{</span>
+        <span class="n">mTempStateStack</span><span class="o">[</span><span class="n">mTempStateStackCount</span><span class="o">++]</span> <span class="o">=</span> <span class="n">curStateInfo</span><span class="o">;</span>
+        <span class="n">curStateInfo</span> <span class="o">=</span> <span class="n">curStateInfo</span><span class="o">.</span><span class="na">parentStateInfo</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">while</span> <span class="o">((</span><span class="n">curStateInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">curStateInfo</span><span class="o">.</span><span class="na">active</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"setupTempStateStackWithStatesToEnter: X mTempStateStackCount="</span>
+                <span class="o">+</span> <span class="n">mTempStateStackCount</span> <span class="o">+</span> <span class="s">",curStateInfo: "</span> <span class="o">+</span> <span class="n">curStateInfo</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">curStateInfo</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="4-消息传递">4. 消息传递</h3>
+
+<p>向 <code class="language-plaintext highlighter-rouge">StateMachine</code> 传递消息时，最常用的是 <code class="language-plaintext highlighter-rouge">sendMessage</code> 方法，有多个 <code class="language-plaintext highlighter-rouge">sendMessage</code> 重载，但都大同小异，内部调用 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">sendMessage</code> 方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// mSmHandler can be null if the state machine has quit.</span>
+    <span class="nc">SmHandler</span> <span class="n">smh</span> <span class="o">=</span> <span class="n">mSmHandler</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">smh</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+    <span class="n">smh</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>此外，发送消息时还可以调用 <code class="language-plaintext highlighter-rouge">deferMessage</code> 方法，该方法传递的消息将等待当前状态被切换后再处理，同样地，内部调用的是 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">deferMessage</code> 方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">deferMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mSmHandler</span><span class="o">.</span><span class="na">deferMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">deferMessage</code> 方法将消息添加到一个列表中。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">deferMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"deferMessage: msg="</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="na">what</span><span class="o">);</span>
+
+    <span class="cm">/* Copy the "msg" to "newMsg" as "msg" will be recycled */</span>
+    <span class="nc">Message</span> <span class="n">newMsg</span> <span class="o">=</span> <span class="n">obtainMessage</span><span class="o">();</span>
+    <span class="n">newMsg</span><span class="o">.</span><span class="na">copyFrom</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+
+    <span class="n">mDeferredMessages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">newMsg</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>在状态切换完成后，会调用 <code class="language-plaintext highlighter-rouge">moveDeferredMessageAtFontOfQueue</code> 方法完成消息列表更新，从列表最后的消息开始，依次放入消息队列的头部。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">moveDeferredMessageAtFrontOfQueue</span><span class="o">()</span> <span class="o">{</span>
+    <span class="cm">/**
+      * The oldest messages on the deferred list must be at
+      * the front of the queue so start at the back, which
+      * as the most resent message and end with the oldest
+      * messages at the front of the queue.
+      */</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">mDeferredMessages</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+        <span class="nc">Message</span> <span class="n">curMsg</span> <span class="o">=</span> <span class="n">mDeferredMessages</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"moveDeferredMessageAtFrontOfQueue; what="</span> <span class="o">+</span> <span class="n">curMsg</span><span class="o">.</span><span class="na">what</span><span class="o">);</span>
+        <span class="n">sendMessageAtFrontOfQueue</span><span class="o">(</span><span class="n">curMsg</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">mDeferredMessages</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="5-状态机退出">5. 状态机退出</h3>
+
+<p>状态机退出流程通过 <code class="language-plaintext highlighter-rouge">quit</code> 或 <code class="language-plaintext highlighter-rouge">quitNow</code> 方法触发。<code class="language-plaintext highlighter-rouge">quit</code> 内部调用了 <code class="language-plaintext highlighter-rouge">mSmHandler</code> 的 <code class="language-plaintext highlighter-rouge">quit</code> 方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">quit</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// mSmHandler can be null if the state machine is already stopped.</span>
+    <span class="nc">SmHandler</span> <span class="n">smh</span> <span class="o">=</span> <span class="n">mSmHandler</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">smh</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+    <span class="n">smh</span><span class="o">.</span><span class="na">quit</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mSmHandler.quit</code> 方法发送一个 <code class="language-plaintext highlighter-rouge">SM_QUIT_CMD</code> 消息，告知退出，如<a href="#2-%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86">前文</a>所述，该消息在处理时被传入 <code class="language-plaintext highlighter-rouge">processMsg</code>，直接标记切换的目标状态为 <code class="language-plaintext highlighter-rouge">QuittingState</code>。该状态不处理任何消息，其 <code class="language-plaintext highlighter-rouge">processMessage</code> 只会返回未处理。<code class="language-plaintext highlighter-rouge">performTransitions</code> 执行到退出状态的切换后，调用 <code class="language-plaintext highlighter-rouge">cleanupAfterQuitting</code> 停止状态机线程并清空状态机信息。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">cleanupAfterQuitting</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mSm</span><span class="o">.</span><span class="na">mSmThread</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// If we made the thread then quit looper which stops the thread.</span>
+        <span class="n">getLooper</span><span class="o">().</span><span class="na">quit</span><span class="o">();</span>
+        <span class="n">mSm</span><span class="o">.</span><span class="na">mSmThread</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">mSm</span><span class="o">.</span><span class="na">mSmHandler</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mSm</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mMsg</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mLogRecords</span><span class="o">.</span><span class="na">cleanup</span><span class="o">();</span>
+    <span class="n">mStateStack</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mTempStateStack</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mStateInfo</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+    <span class="n">mInitialState</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mDestState</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">mDeferredMessages</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+    <span class="n">mHasQuit</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">quitNow</code> 方法与 <code class="language-plaintext highlighter-rouge">quit</code> 方法基本一致，只是将 <code class="language-plaintext highlighter-rouge">SM_QUIT_CMD</code> 消息放置在消息队列头部，这样状态机将不等待消息队列处理完成便立即退出。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">quitNow</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mDbg</span><span class="o">)</span> <span class="n">mSm</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"quitNow:"</span><span class="o">);</span>
+    <span class="n">sendMessageAtFrontOfQueue</span><span class="o">(</span><span class="n">obtainMessage</span><span class="o">(</span><span class="no">SM_QUIT_CMD</span><span class="o">,</span> <span class="n">mSmHandlerObj</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>此外还有停止状态 <code class="language-plaintext highlighter-rouge">HaltingState</code>，可通过调用 <code class="language-plaintext highlighter-rouge">transitionToHaltingState</code> 切换过去，该状态只是停止普通状态下的消息处理，不会停止状态机线程或清空状态机信息，消息仍可以由 <code class="language-plaintext highlighter-rouge">haltedProcessMessage</code> 方法处理。<code class="language-plaintext highlighter-rouge">transitionToHaltingState</code> 方法实际调用的是 <code class="language-plaintext highlighter-rouge">mSmHandler.transitionTo</code> 方法，传入的参数为 <code class="language-plaintext highlighter-rouge">mSmHandler.mHaltingState</code>。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">transitionToHaltingState</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">mSmHandler</span><span class="o">.</span><span class="na">transitionTo</span><span class="o">(</span><span class="n">mSmHandler</span><span class="o">.</span><span class="na">mHaltingState</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      
+        <footer class="page__meta">
+          
+          
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#android" class="page__taxonomy-item" rel="tag">Android</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#%E6%8A%80%E6%9C%AF" class="page__taxonomy-item" rel="tag">技术</a>
+    
+    </span>
+  </p>
+
+
+          
+            
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间：</strong> <time datetime="2018-09-19T00:00:00+08:00">2018 年 9 月 19 日</time></p>
+
+
+          
+        </footer>
+      
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/2018/09/wlan-sec-overview/" class="pagination--pager" title="WLAN 中的安全机制概述
+">上一页</a>
+    
+    
+      <a href="/2018/09/arp-dhcp/" class="pagination--pager" title="常见协议之 ARP 与 DHCP
+">下一页</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <section id="static-comments">
+        
+          <!-- Start static comments -->
+          <div class="js-comments">
+            
+          </div>
+          <!-- End static comments -->
+
+          <!-- Start new comment form -->
+          <div class="page__comments-form">
+            <h4 class="page__comments-title">留下评论</h4>
+            <p class="small">您的电子邮箱地址并不会被展示。请填写标记为必须的字段。 <span class="required">*</span></p>
+            <form id="new_comment" class="page__comments-form js-form form" method="post" action="https://www-api.lnki.me/v3/entry/github/lnki96/lnki96.github.io/main/comments">
+              <div class="form__spinner">
+                <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                <span class="sr-only">正在加载...</span>
+              </div>
+
+              <div class="form-group">
+                <label for="comment-form-message">评论 <small class="required">*</small></label>
+                <textarea type="text" rows="3" id="comment-form-message" name="fields[message]" tabindex="1"></textarea>
+                <div class="small help-block"><a href="https://daringfireball.net/projects/markdown/">支持 Markdown 语法。</a></div>
+              </div>
+              <div class="form-group">
+                <label for="comment-form-name">姓名 <small class="required">*</small></label>
+                <input type="text" id="comment-form-name" name="fields[name]" tabindex="2">
+              </div>
+              <div class="form-group">
+                <label for="comment-form-email">电子邮箱 <small class="required">*</small></label>
+                <input type="email" id="comment-form-email" name="fields[email]" tabindex="3">
+              </div>
+              <div class="form-group">
+                <label for="comment-form-url">网站（可选）</label>
+                <input type="url" id="comment-form-url" name="fields[url]" tabindex="4">
+              </div>
+              <div class="form-group hidden" style="display: none;">
+                <input type="hidden" name="options[slug]" value="android-state-machine">
+                <label for="comment-form-location">Not used. Leave blank if you are a human.</label>
+                <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off">
+                <input type="hidden" name="options[reCaptcha][siteKey]" value="6Lfi0TkaAAAAAL7-p7VJ15DjbJnVpRADclZZn5wn">
+                <input type="hidden" name="options[reCaptcha][secret]" value="jB4YHVk57lH08E51ejDzfcxljF6bmEy0OuEei7ZSwf+Tjc9iV6p5xOrrdpWV7Z6ONdK4CiHdHBpAF3LV/Anzv4bWV2KPncp5rBlUhDSKIvmfHKpVnECox095X4umwezPSJrlINu7byw3Ol82AayLeB9RB1GcFwzTFS6SeXA+Nvw=">
+              </div>
+              <!-- Start comment form alert messaging -->
+              <p class="hidden js-notice">
+                <strong class="js-notice-text"></strong>
+              </p>
+              <!-- End comment form alert messaging -->
+              
+                <div class="form-group">
+                  <div class="g-recaptcha" data-sitekey="6Lfi0TkaAAAAAL7-p7VJ15DjbJnVpRADclZZn5wn"></div>
+                </div>
+              
+              <div class="form-group">
+                <button type="submit" id="comment-form-submit" tabindex="5" class="btn btn--primary btn--large">提交评论</button>
+              </div>
+            </form>
+          </div>
+          <!-- End new comment form -->
+          <script async src="https://www.recaptcha.net/recaptcha/api.js"></script>
+        
+      </section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">猜您还喜欢</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/arp-dhcp/" rel="permalink">常见协议之 ARP 与 DHCP
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-30T00:00:00+08:00">2018 年 9 月 30 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 3 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">一、ARP
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/wlan-sec-overview/" rel="permalink">WLAN 中的安全机制概述
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-15T00:00:00+08:00">2018 年 9 月 15 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 15 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">WLAN 物理层的传输方式都是无线电广播，由于物理媒介的开放性，避免窃听自然是 WLAN 要提供的一项基本功能。说到 WLAN 安全，我们会想到 802.11i、802.1X、WEP、WPA、EAP、WAPI 等一堆名词，本文介绍它们的概念和作用，并梳理它们的关系。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/wlan-frame/" rel="permalink">IEEE 802.11 MAC 帧
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-13T00:00:00+08:00">2018 年 9 月 13 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 10 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Ehternet 的成帧很简单，只需在前加上前导码、寻址信息并在结尾加上校验和，相比而言，802.11 的成帧复杂，因为无线网络需要加入较多控制和管理的功能。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2018/09/wlan-mac/" rel="permalink">IEEE 802.11 MAC 基础盘点
+</a>
+      
+    </h2>
+    
+
+
+
+
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        <time datetime="2018-09-12T00:00:00+08:00">2018 年 9 月 12 日</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          阅读时间约 5 分钟
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">这里简单过一过 IEEE 802.11 MAC 层的常见概念1，了解这些名词基本的的用途和目的，具体原理就不做深入讨论了。
+
+
+  
+    
+      Gast, M. S. 802.11® 无线网络权威指南[M]. 第 2 版. O’Reilly Taiwan 公司. 南京 - 东南大学出版社, 2007....</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap">
+<form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词...">
+  </form>
+  <div id="results" class="results"></div>
+</div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>关注:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2018 - 2021 Lnki. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9YVFY07C9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y9YVFY07C9', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    (function ($) {
+    $('#new_comment').submit(function () {
+      var form = this;
+
+      $(form).addClass('disabled');
+      $('#comment-form-submit').html('<i class="fas fa-spinner fa-spin fa-fw"></i> 正在加载...');
+
+      $.ajax({
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+          $('#comment-form-submit').html('已提交');
+          $('.page__comments-form .js-notice').removeClass('notice--danger');
+          $('.page__comments-form .js-notice').addClass('notice--success');
+          showAlert('感谢您的评论！被批准后它会立即在此站点展示。');
+        },
+        error: function (err) {
+          console.log(err);
+          $('#comment-form-submit').html('提交评论');
+          $('.page__comments-form .js-notice').removeClass('notice--success');
+          $('.page__comments-form .js-notice').addClass('notice--danger');
+          showAlert('很抱歉，您的提交存在错误。请确保所有必填字段都已填写正确，然后再试一次。');
+          $(form).removeClass('disabled');
+        }
+      });
+
+      return false;
+    });
+
+    function showAlert(message) {
+      $('.page__comments-form .js-notice').removeClass('hidden');
+      $('.page__comments-form .js-notice-text').html(message);
+    }
+  })(jQuery);
+  </script>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
