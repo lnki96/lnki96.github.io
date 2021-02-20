@@ -4,6 +4,7 @@ tags:
   - Android
 categories:
   - 技术
+priority: 10
 ---
 
 本文所述 Android 架构，是指 Android 系统内部的体系[架构](https://source.android.com/devices/architecture "Android 架构")，相对于应用开发角度的 Android [平台架构](https://developer.android.com/guide/platform "平台架构")，更偏重展现 Android 系统内部的调用机制，用于指导 Android 硬件开发和系统开发。
