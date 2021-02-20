@@ -1,4 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.lnki.me/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.lnki.me/" rel="alternate" type="text/html" /><updated>2021-02-20T19:58:13+08:00</updated><id>https://www.lnki.me/feed.xml</id><title type="html">Lnki’s Home · 网上冲浪日志</title><subtitle>这里是 Lnki 的小站，我在这里分享知识、记录日常。</subtitle><author><name>Lnki</name></author><entry><title type="html">计算机网络模型</title><link href="https://www.lnki.me/2018/09/network-model/" rel="alternate" type="text/html" title="计算机网络模型" /><published>2018-09-08T00:00:00+08:00</published><updated>2018-09-08T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/network-model</id><content type="html" xml:base="https://www.lnki.me/2018/09/network-model/">&lt;h2 id=&quot;一osi-七层模型&quot;&gt;一、OSI 七层模型&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.lnki.me/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.lnki.me/" rel="alternate" type="text/html" /><updated>2021-02-20T20:02:30+08:00</updated><id>https://www.lnki.me/feed.xml</id><title type="html">Lnki’s Home · 网上冲浪日志</title><subtitle>这里是 Lnki 的小站，我在这里分享知识、记录日常。</subtitle><author><name>Lnki</name></author><entry><title type="html">常见协议之 ARP 与 DHCP</title><link href="https://www.lnki.me/2018/09/arp-dhcp/" rel="alternate" type="text/html" title="常见协议之 ARP 与 DHCP" /><published>2018-09-30T00:00:00+08:00</published><updated>2018-09-30T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/arp-dhcp</id><content type="html" xml:base="https://www.lnki.me/2018/09/arp-dhcp/">&lt;h2 id=&quot;一arp&quot;&gt;一、ARP&lt;/h2&gt;
+
+&lt;p&gt;ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。&lt;/p&gt;
+
+&lt;p&gt;发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/arp.webp&quot; alt=&quot;ARP 地址解析过程示意图&quot; /&gt;
+  &lt;figcaption&gt;
+      ARP 地址解析过程
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的 IP 地址在网络中已不可达，通过 netlink 向用户空间报告 IP 地址不可达的事件。&lt;/p&gt;
+
+&lt;h2 id=&quot;二dhcp&quot;&gt;二、DHCP&lt;/h2&gt;
+
+&lt;p&gt;IPv4 网络常使用 DHCP 进行 IP 地址分配，DHCP 交换过程分为四步，就像下图这样：&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/dhcp.webp&quot; alt=&quot;DHCP 地址申请过程图&quot; /&gt;
+  &lt;figcaption&gt;
+      DHCP 地址申请过程
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;客户端请求 IP 地址时，在局域网中广播一个 DHCPDISCOVER 报文，源地址为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0.0.0.0&lt;/code&gt;，目的地址为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;255.255.255.255&lt;/code&gt;，即 IP 广播地址；&lt;/li&gt;
+  &lt;li&gt;DHCP 服务器收到后以广播的方式回复 DHCPOFFER 报文，包含服务器 IP 地址、地址池中可以分配的 IP 地址，以及其他 DHCP 配置信息；&lt;/li&gt;
+  &lt;li&gt;网络中可能存在多个 DHCP 服务器，客户端收到第一个 DHCPOFFER 报文后便不再接受其他 DHCPOFFER 报文，广播 DHCPREQUEST 报文，向指定的 DHCP 服务器请求 IP 地址；&lt;/li&gt;
+  &lt;li&gt;DHCP 服务器返回 DHCPACK 报文，确认 IP 地址分配，依然是广播的方式，若收到 DHCPREQUEST 报文时被申请的 IP 已被分配，则发送 DHCPDECLINE 报文告知 IP 已不可用。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;客户端收到后 DHCPACK 后，IP 地址配置完成，可以进行 IP 通信。客户端可以随时发送 DHCPRELEASE 报文释放 IP 地址，服务端收到后回收 IP 地址。如果客户端请求的 IP 地址不可用，DHCP 服务器会响应 DHCPNAK，客户端会重新开始 DHCP 交换流程。&lt;/p&gt;
+
+&lt;p&gt;通过 DHCP 分配的 IP 地址是有租期的，客户端需要定期发起续租，续租过程分为 renew 和 rebind 两个阶段，客户端维护两个计时器 T1 和 T2，分别对应 renew 和 rebind，计时结束时启动相应阶段的续租流程。下面是 DHCP 续租流程：&lt;/p&gt;
+
+&lt;figure class=&quot;&quot;&gt;
+  
+  &lt;img src=&quot;/contents/posts/dhcp-renew-rebind.webp&quot; alt=&quot;DHCP 刷新时序图&quot; /&gt;
+  &lt;figcaption&gt;
+      &lt;a href=&quot;http://www.tcpipguide.com/free/t_DHCPLeaseRenewalandRebindingProcesses-2.htm&quot;&gt;DHCP 刷新过程&lt;/a&gt;
+
+    &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;T1 结束时，客户端向与 IP 地址配置绑定的 DHCP 服务器单播 DHCPREQUEST 报文，请求获取相同的配置，若该 DHCP 服务器响应 DHCPACK 报文，则续租完成，T1 和 T2 重新计时，否则重新发送 DHCPREQUEST 报文，直到 T2 结束。&lt;/li&gt;
+  &lt;li&gt;T2 结束，意味着指定的 DHCP 服务器不可访问，此时客户端广播 DHCPREQUEST 报文，网络中的其他 DHCP 服务器响应 DHCPACK，续租完成，T1、T2 重新计时，否则重复广播 DHCPREQUEST 报文，直至租期结束。&lt;/li&gt;
+  &lt;li&gt;如果租期结束，或者客户端收到了 DHCPNAK 报文，则续租失败，客户端发起新的 DHCP 地址申请流程。&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Lnki</name></author><category term="技术" /><category term="网络" /><summary type="html">一、ARP</summary></entry><entry><title type="html">计算机网络模型</title><link href="https://www.lnki.me/2018/09/network-model/" rel="alternate" type="text/html" title="计算机网络模型" /><published>2018-09-08T00:00:00+08:00</published><updated>2018-09-08T00:00:00+08:00</updated><id>https://www.lnki.me/2018/09/network-model</id><content type="html" xml:base="https://www.lnki.me/2018/09/network-model/">&lt;h2 id=&quot;一osi-七层模型&quot;&gt;一、OSI 七层模型&lt;/h2&gt;
 
 &lt;p&gt;OSI（Open System Interconnection）模型是一种计算机网络标准框架，是一种全球各种计算平台和网络之间数据通信的完整解决方案。OSI 是理论上的网络标准，而实际上的工业标准是 TCP/IP 协议族，理解 OSI 有助于理解 TCP/IP。&lt;/p&gt;
 

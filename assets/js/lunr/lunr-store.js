@@ -10,4 +10,10 @@ var store = [{
         "tags": ["网络"],
         "url": "https://www.lnki.me/2018/09/network-model/",
         "teaser": "https://www.lnki.me/assets/images/teaser.webp"
+      },{
+        "title": "常见协议之 ARP 与 DHCP",
+        "excerpt":"一、ARP ARP 即地址解析协议，用于将 IP 地址解析为 MAC 地址，来建立逻辑地址到物理地址的映射。 发送方将 IP 报文封装为帧时，需要知道接收方的 MAC 地址。如下图所示，发送方先查找本地 ARP 缓存是否存在目的 IP 地址或下一跳的 MAC 地址记录，若没有记录，就会广播 ARP Request 报文，询问接收方的 MAC 地址，接收方具有目的 IP 地址，将会以单播的形式响应，告知自己的 MAC 地址，同时记录发送方的 IP 地址和 MAC 地址。 ARP 地址解析过程 除了解析地址，ARP 还用于探测局域网中IP地址是否存在。对于 IPv4 网络，kernel 会定时向指定 IP 发送单播的 ARP Request 报文，通常是 1 分钟发送 3 个，若所有请求都没有收到 ARP Response 报文，内核判定探测的...","categories": ["技术"],
+        "tags": ["网络"],
+        "url": "https://www.lnki.me/2018/09/arp-dhcp/",
+        "teaser": "https://www.lnki.me/assets/images/teaser.webp"
       }]
